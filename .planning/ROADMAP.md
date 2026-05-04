@@ -82,7 +82,7 @@ Fluent ships in 5 phases. Phase 1 validates the emotional core: a signed-in user
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Auth + Voice Clone Foundation | 2/5 | In progress | - |
+| 1. Auth + Voice Clone Foundation | 4/5 | In Progress|  |
 | 2. Outbound Call Engine | 0/TBD | Not started | - |
 | 3. Live Transcript Streaming | 0/TBD | Not started | - |
 | 4. Browser Audio Leg + Barge-In | 0/TBD | Not started | - |

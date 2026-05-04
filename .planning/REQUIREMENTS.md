@@ -16,10 +16,10 @@
 
 ### Voice Clone
 
-- [ ] **VOICE-01**: User can record a voice sample live in-browser (60–120s, no file upload)
-- [ ] **VOICE-02**: Recording flow includes a scripted passage to capture varied phonemes without hard-block triggers
-- [ ] **VOICE-03**: App performs client-side audio quality check (noise floor, silence ratio, volume) before accepting the sample
-- [ ] **VOICE-04**: User must record and affirm a randomized consent passphrase ("I, [name], on [date], consent to my voice being used by Fluent") before clone is created
+- [x] **VOICE-01**: User can record a voice sample live in-browser (60–120s, no file upload)
+- [x] **VOICE-02**: Recording flow includes a scripted passage to capture varied phonemes without hard-block triggers
+- [x] **VOICE-03**: App performs client-side audio quality check (noise floor, silence ratio, volume) before accepting the sample
+- [x] **VOICE-04**: User must record and affirm a randomized consent passphrase ("I, [name], on [date], consent to my voice being used by Fluent") before clone is created
 - [ ] **VOICE-05**: App plays back a sample sentence in the cloned voice for user confirmation before saving
 - [ ] **VOICE-06**: User can re-clone their voice at any time from Settings — old clone is superseded, not overwritten
 - [ ] **VOICE-07**: User can delete their voice clone and all associated audio data (GDPR-compliant)
@@ -127,10 +127,10 @@
 | AUTH-02 | Phase 1 | Pending |
 | AUTH-03 | Phase 1 | Pending |
 | AUTH-04 | Phase 1 | Pending |
-| VOICE-01 | Phase 1 | Pending |
-| VOICE-02 | Phase 1 | Pending |
-| VOICE-03 | Phase 1 | Pending |
-| VOICE-04 | Phase 1 | Pending |
+| VOICE-01 | Phase 1 | Complete |
+| VOICE-02 | Phase 1 | Complete |
+| VOICE-03 | Phase 1 | Complete |
+| VOICE-04 | Phase 1 | Complete |
 | VOICE-05 | Phase 1 | Pending |
 | VOICE-06 | Phase 1 | Pending |
 | VOICE-07 | Phase 1 | Pending |

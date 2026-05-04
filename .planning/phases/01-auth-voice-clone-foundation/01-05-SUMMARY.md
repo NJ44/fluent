@@ -61,25 +61,25 @@ key-decisions:
   - "VoiceOnboarding accepts isReclone+onRecloneComplete props for Settings modal reuse"
 
 # Metrics
-duration: partial (checkpoint:human-verify pending)
+duration: ~30 min (Tasks 1-2 ~25 min + checkpoint verification)
 completed: 2026-05-04
-checkpoint_status: awaiting human verification
+checkpoint_status: approved
 ---
 
 # Phase 01 Plan 05: Voice Clone Pipeline Summary
 
-**Full voice clone pipeline: record → consent → clone API → preview playback → confirm. Settings re-clone + GDPR delete. All 20 Vitest tests green.**
+**Full voice clone pipeline: record → consent → clone API → preview playback → confirm. Settings re-clone + GDPR delete. All 20 Vitest tests green. Human verification: approved.**
 
-## Status: CHECKPOINT — Awaiting Human Verification
+## Status: COMPLETE
 
-Tasks 1 and 2 complete. Plan paused at Task 3 (checkpoint:human-verify).
+All 3 tasks complete. Human checkpoint approved by user.
 
 ## Performance
 
-- **Duration:** ~25 min (Tasks 1-2)
+- **Duration:** ~30 min
 - **Started:** 2026-05-04T20:54:00Z
-- **Completed (partial):** 2026-05-04T21:02:00Z
-- **Tasks completed:** 2 of 3
+- **Completed:** 2026-05-04T21:08:00Z
+- **Tasks completed:** 3 of 3
 
 ## Accomplishments
 
@@ -107,6 +107,7 @@ Tasks 1 and 2 complete. Plan paused at Task 3 (checkpoint:human-verify).
 1. **test(01-05): add failing tests for clone-voice + delete-voice handlers** — `7b6c144`
 2. **feat(01-05): clone-voice + delete-voice + preview-voice Netlify functions** — `6729c11`
 3. **feat(01-05): CloneStep + PlaybackStep components + Settings page** — `e6861e5`
+4. **Task 3 (checkpoint:human-verify):** Approved by user — end-to-end flow verified
 
 ## Deviations from Plan
 
@@ -136,6 +137,12 @@ Tasks 1 and 2 complete. Plan paused at Task 3 (checkpoint:human-verify).
 - **Issue:** Using `vi.clearAllMocks()` cleared `mockUpdate.mockReturnValue(...)` implementations, causing handler to get `undefined` from supabase chains
 - **Fix:** Switched to `mockUpdate.mockClear()` (clears call history only) + re-apply `mockReturnValue` in `beforeEach`
 
+### Task 3: Human Verification (Checkpoint Approved)
+
+- User verified the complete end-to-end voice clone flow: sign-up → /onboarding → record → quality gate → consent → clone → preview → confirm → /dashboard
+- Settings page re-clone and delete flows confirmed
+- Auth flow verified: sign-in, sign-out, protected route redirect, session persistence
+
 ## User Setup Required
 
 Before running the full clone flow end-to-end:
@@ -160,5 +167,9 @@ Before running the full clone flow end-to-end:
 - [x] 20 tests pass, 1 skipped (rls.test.ts — requires live DB)
 - [x] npx tsc --noEmit — no errors (both tsconfig.json and tsconfig.netlify.json)
 - [x] npm run build — succeeds
+
+- [x] 20 tests pass (vitest run), 1 skipped (rls.test.ts — requires live DB) — verified in continuation
+- [x] npx tsc --noEmit — clean (exit 0) — verified in continuation
+- [x] Human checkpoint: approved
 
 ## Self-Check: PASSED

@@ -20,10 +20,10 @@
 - [x] **VOICE-02**: Recording flow includes a scripted passage to capture varied phonemes without hard-block triggers
 - [x] **VOICE-03**: App performs client-side audio quality check (noise floor, silence ratio, volume) before accepting the sample
 - [x] **VOICE-04**: User must record and affirm a randomized consent passphrase ("I, [name], on [date], consent to my voice being used by Fluent") before clone is created
-- [ ] **VOICE-05**: App plays back a sample sentence in the cloned voice for user confirmation before saving
-- [ ] **VOICE-06**: User can re-clone their voice at any time from Settings — old clone is superseded, not overwritten
-- [ ] **VOICE-07**: User can delete their voice clone and all associated audio data (GDPR-compliant)
-- [ ] **VOICE-08**: Voice clone is private to the user — never shared, accessible only by the user and service role
+- [x] **VOICE-05**: App plays back a sample sentence in the cloned voice for user confirmation before saving
+- [x] **VOICE-06**: User can re-clone their voice at any time from Settings — old clone is superseded, not overwritten
+- [x] **VOICE-07**: User can delete their voice clone and all associated audio data (GDPR-compliant)
+- [x] **VOICE-08**: Voice clone is private to the user — never shared, accessible only by the user and service role
 
 ### Call Intent
 
@@ -131,10 +131,10 @@
 | VOICE-02 | Phase 1 | Complete |
 | VOICE-03 | Phase 1 | Complete |
 | VOICE-04 | Phase 1 | Complete |
-| VOICE-05 | Phase 1 | Pending |
-| VOICE-06 | Phase 1 | Pending |
-| VOICE-07 | Phase 1 | Pending |
-| VOICE-08 | Phase 1 | Pending |
+| VOICE-05 | Phase 1 | Complete |
+| VOICE-06 | Phase 1 | Complete |
+| VOICE-07 | Phase 1 | Complete |
+| VOICE-08 | Phase 1 | Complete |
 | INTENT-01 | Phase 2 | Pending |
 | INTENT-02 | Phase 2 | Pending |
 | INTENT-03 | Phase 2 | Pending |

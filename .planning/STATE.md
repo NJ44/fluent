@@ -1,3 +1,19 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: executing
+stopped_at: Completed 01-03-PLAN.md (DB Schema + Netlify Shared Utilities)
+last_updated: "2026-05-04T16:37:24.701Z"
+last_activity: 2026-05-04 — Completed plan 01-01 (Bootstrap + Wave 0 Test Stubs)
+progress:
+  total_phases: 5
+  completed_phases: 0
+  total_plans: 5
+  completed_plans: 2
+  percent: 40
+---
+
 # Project State
 
 ## Project Reference
@@ -15,6 +31,11 @@ Status: In progress
 Last activity: 2026-05-04 — Completed plan 01-02 (Auth Library + ProtectedRoute + SignIn/SignUp Pages)
 
 Progress: [██░░░░░░░░] 8%
+Plan: 3 of 5 in current phase
+Status: In progress
+Last activity: 2026-05-04 — Completed plan 01-03 (DB Schema + Netlify Shared Utilities)
+
+Progress: [████░░░░░░] 40%
 
 ## Performance Metrics
 
@@ -22,16 +43,18 @@ Progress: [██░░░░░░░░] 8%
 - Total plans completed: 2
 - Average duration: 23 min
 - Total execution time: 46 min
+- Average duration: 3 min
+- Total execution time: 6 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-auth-voice-clone-foundation | 2 | 46 min | 23 min |
+| 01-auth-voice-clone-foundation | 3 | 49 min | 16 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3 min), 01-02 (43 min)
-- Trend: 01-02 was longer due to TDD + jsdom React test environment setup
+- Last 5 plans: 01-01 (3 min), 01-02 (43 min), 01-03 (3 min)
+- Trend: 01-02 longer due to TDD + jsdom React test setup; infra plans are fast
 
 *Updated after each plan completion*
 
@@ -52,6 +75,9 @@ Recent decisions affecting current work:
 - [01-02]: ProtectedRoute checks voice_clones table (status=active) before allowing access — redirects to /onboarding if no active clone
 - [01-02]: ProtectedRoute skips clone check on /onboarding path to prevent infinite redirect loop
 - [01-02]: Vitest supabase mock uses module-level mutable let variable (not vi.fn().mockReturnThis() chain) — avoids hoisting TDZ issues
+- [Phase 01-03]: tsconfig.netlify.json added to enable TypeScript checking for netlify/functions/ — main tsconfig only covers src/
+- [Phase 01-03]: getServiceSupabase() throws on missing SUPABASE_SERVICE_KEY — fail-loud prevents silent anon-key fallback in privileged operations
+- [Phase 01-03]: verifyBearerToken() pattern established in auth-utils.ts — all Netlify mutation functions must call this before data operations
 
 ### Pending Todos
 
@@ -67,4 +93,6 @@ None yet.
 
 Last session: 2026-05-04T17:16:43Z
 Stopped at: Completed 01-02-PLAN.md (Auth Library + ProtectedRoute + SignIn/SignUp Pages)
+Last session: 2026-05-04T16:37:24.698Z
+Stopped at: Completed 01-03-PLAN.md (DB Schema + Netlify Shared Utilities)
 Resume file: None

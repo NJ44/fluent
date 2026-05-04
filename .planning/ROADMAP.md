@@ -11,7 +11,7 @@ Fluent ships in 5 phases. Phase 1 validates the emotional core: a signed-in user
 
 ## Phases
 
-- [x] **Phase 1: Auth + Voice Clone Foundation** - Signed-in user records, validates, and owns a private cloned voice ready for use (completed 2026-05-04)
+- [x] **Phase 1: Auth + Voice Clone Foundation** - Signed-in user records, validates, and owns a private cloned voice ready for use (completed 2026-05-04)
 - [ ] **Phase 2: Outbound Call Engine** - Cloned-voice AI call placed end-to-end with TCPA disclosure, post-call summary, stored transcript, and call history
 - [ ] **Phase 3: Live Transcript Streaming** - Real-time call transcript streams to the browser; microphone permissions resolved at app load
 - [ ] **Phase 4: Browser Audio Leg + Barge-In** - Three-leg Twilio Conference with browser audio; one-button barge-in (<300ms) and kill-switch live (HIGHEST RISK)
@@ -29,7 +29,14 @@ Fluent ships in 5 phases. Phase 1 validates the emotional core: a signed-in user
   3. After cloning, the user hears a sample sentence played back in their cloned voice and can confirm or restart the recording before the clone is saved.
   4. From Settings, the user can re-clone at any time (old clone superseded, not overwritten) or permanently delete the clone with all associated audio — verifiably GDPR-compliant.
   5. The cloned voice is never accessible to any other user; it is private to the owning user and the service role only.
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [x] 01-01-PLAN.md — Bootstrap + Wave 0 test stubs
+- [x] 01-02-PLAN.md — Auth library + ProtectedRoute + SignIn/SignUp pages
+- [x] 01-03-PLAN.md — DB schema + Netlify shared utilities
+- [x] 01-04-PLAN.md — Voice recording flow + quality gate
+- [x] 01-05-PLAN.md — Voice clone pipeline (Retell + Storage + onboarding UI)
 
 ### Phase 2: Outbound Call Engine
 **Goal**: A user with a valid clone can submit a call intent with fallback rules, an outbound AI call is placed in their cloned voice with mandatory TCPA disclosure, the full call lifecycle is tracked, and the user ends up with a Claude-generated outcome summary, a stored transcript, and a browseable call history.
@@ -41,7 +48,15 @@ Fluent ships in 5 phases. Phase 1 validates the emotional core: a signed-in user
   3. The call's lifecycle (draft → initiating → ringing → active → ended → analyzed) is tracked in real time; end-to-end AI response latency is under 1.5s with the IVC voice; failure states (no answer, busy, voicemail, error) surface a clear user-facing message rather than a crash or silent hang.
   4. After the call ends, the user receives a 1-sentence Claude-generated outcome summary and can open and read the full stored transcript.
   5. The user can view a list of past calls (intent, outcome, date, status) and open any entry to see its full transcript.
-**Plans**: TBD
+**Plans**: 6 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Wave 0: test stubs + DB migrations + fix verify-signatures + shared types
+- [ ] 02-02-PLAN.md — setup-retell-agent.ts + initiate-call.ts Netlify functions
+- [ ] 02-03-PLAN.md — retell-webhook.ts (lifecycle state machine + async Claude summarization)
+- [ ] 02-04-PLAN.md — IntentForm + Dashboard + CallStatus React pages
+- [ ] 02-05-PLAN.md — CallDetail + CallHistory React pages
+- [ ] 02-06-PLAN.md — Live call QA checkpoint (TCPA verification + lifecycle + summary)
 
 ### Phase 3: Live Transcript Streaming
 **Goal**: While a call is active, the user watches a real-time transcript update in the browser with the AI's current turn visually distinguished from completed turns; microphone permission is requested at app load and a persistent actionable banner surfaces if denied.
@@ -83,7 +98,7 @@ Fluent ships in 5 phases. Phase 1 validates the emotional core: a signed-in user
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Auth + Voice Clone Foundation | 5/5 | Complete   | 2026-05-04 |
-| 2. Outbound Call Engine | 0/TBD | Not started | - |
+| 2. Outbound Call Engine | 0/6 | Planned | - |
 | 3. Live Transcript Streaming | 0/TBD | Not started | - |
 | 4. Browser Audio Leg + Barge-In | 0/TBD | Not started | - |
 | 5. Billing + Calendar + Retry | 0/TBD | Not started | - |
@@ -102,3 +117,4 @@ Fluent ships in 5 phases. Phase 1 validates the emotional core: a signed-in user
 
 ---
 *Roadmap created: 2026-05-04*
+*Phase 2 plans added: 2026-05-04*

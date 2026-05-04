@@ -4,6 +4,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import VoiceOnboarding from './pages/VoiceOnboarding';
+import Settings from './pages/Settings';
 
 function App() {
   return (
@@ -20,6 +21,11 @@ function App() {
           <Route path="/onboarding" element={
             <ProtectedRoute>
               <VoiceOnboarding />
+            </ProtectedRoute>
+          } />
+          <Route path="/settings" element={
+            <ProtectedRoute>
+              <Settings />
             </ProtectedRoute>
           } />
           <Route path="/" element={<Navigate to="/sign-in" replace />} />

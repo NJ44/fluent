@@ -1,7 +1,10 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import RecordingStep from '../components/voice/RecordingStep';
 import ConsentStep from '../components/voice/ConsentStep';
+import CloneStep from '../components/voice/CloneStep';
+import PlaybackStep from '../components/voice/PlaybackStep';
 
 type OnboardingStep = 'record' | 'consent' | 'clone' | 'playback' | 'done';
 
@@ -10,6 +13,9 @@ interface OnboardingState {
   mainBlob: Blob | null;
   passphraseBlob: Blob | null;
   consentText: string;
+  previewUrl: string;
+  retellVoiceId: string;
+  cloneError: string | null;
 }
 
 const STEP_LABELS: { key: OnboardingStep; label: string }[] = [
@@ -25,8 +31,17 @@ function stepIndex(step: OnboardingStep): number {
   return STEP_ORDER.indexOf(step);
 }
 
-export default function VoiceOnboarding() {
+interface VoiceOnboardingProps {
+  isReclone?: boolean;
+  onRecloneComplete?: () => void;
+}
+
+export default function VoiceOnboarding({
+  isReclone = false,
+  onRecloneComplete,
+}: VoiceOnboardingProps = {}) {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const consentText = useMemo(() => {
     const name = user?.name || 'User';
@@ -39,6 +54,9 @@ export default function VoiceOnboarding() {
     mainBlob: null,
     passphraseBlob: null,
     consentText,
+    previewUrl: '',
+    retellVoiceId: '',
+    cloneError: null,
   });
 
   function handleRecordComplete(blob: Blob) {
@@ -51,6 +69,30 @@ export default function VoiceOnboarding() {
 
   function handleBackToRecord() {
     setState(s => ({ ...s, step: 'record' }));
+  }
+
+  function handleCloneComplete(previewUrl: string, retellVoiceId: string) {
+    setState(s => ({ ...s, previewUrl, retellVoiceId, step: 'playback', cloneError: null }));
+  }
+
+  function handleCloneError(message: string) {
+    setState(s => ({ ...s, cloneError: message }));
+  }
+
+  function handlePlaybackConfirm() {
+    if (isReclone && onRecloneComplete) {
+      onRecloneComplete();
+    } else {
+      setState(s => ({ ...s, step: 'done' }));
+    }
+  }
+
+  function handlePlaybackRestart() {
+    setState(s => ({ ...s, step: 'record', mainBlob: null, passphraseBlob: null }));
+  }
+
+  function handleGoToDashboard() {
+    navigate('/dashboard');
   }
 
   const userName = user?.name || '';
@@ -85,7 +127,11 @@ export default function VoiceOnboarding() {
                         i + 1
                       )}
                     </div>
-                    <span className={`mt-1 text-xs ${active ? 'text-blue-600 font-medium' : 'text-gray-400'}`}>
+                    <span
+                      className={`mt-1 text-xs ${
+                        active ? 'text-blue-600 font-medium' : 'text-gray-400'
+                      }`}
+                    >
                       {s.label}
                     </span>
                   </div>
@@ -117,35 +163,51 @@ export default function VoiceOnboarding() {
             />
           )}
 
-          {state.step === 'clone' && (
-            <div className="flex flex-col items-center gap-4 py-8">
-              <svg className="h-10 w-10 animate-spin text-blue-600" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-              </svg>
-              <h2 className="text-xl font-semibold text-gray-900">Cloning your voice…</h2>
-              <p className="text-sm text-gray-500 text-center">
-                This step will be implemented in Plan 05. Your audio blobs are ready.
-              </p>
-            </div>
+          {state.step === 'clone' && state.mainBlob && state.passphraseBlob && (
+            <CloneStep
+              mainBlob={state.mainBlob}
+              passphraseBlob={state.passphraseBlob}
+              isReclone={isReclone}
+              onComplete={handleCloneComplete}
+              onError={handleCloneError}
+            />
           )}
 
           {state.step === 'playback' && (
-            <div className="flex flex-col items-center gap-4 py-8">
-              <h2 className="text-xl font-semibold text-gray-900">Preview</h2>
-              <p className="text-sm text-gray-500">Voice clone preview — coming in Plan 05.</p>
-            </div>
+            <PlaybackStep
+              previewAudioUrl={state.previewUrl}
+              onConfirm={handlePlaybackConfirm}
+              onRestart={handlePlaybackRestart}
+            />
           )}
 
           {state.step === 'done' && (
-            <div className="flex flex-col items-center gap-4 py-8">
+            <div className="flex flex-col items-center gap-6 py-8">
               <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
-                <svg className="h-7 w-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                <svg
+                  className="h-7 w-7 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
                 </svg>
               </div>
               <h2 className="text-xl font-semibold text-gray-900">Voice clone complete!</h2>
-              <p className="text-sm text-gray-500">You&apos;re all set. Redirecting to dashboard…</p>
+              <p className="text-sm text-gray-500 text-center">
+                Your voice has been cloned and is ready to use.
+              </p>
+              <button
+                onClick={handleGoToDashboard}
+                className="rounded-lg bg-blue-600 px-8 py-2.5 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
+              >
+                Go to Dashboard
+              </button>
             </div>
           )}
         </div>

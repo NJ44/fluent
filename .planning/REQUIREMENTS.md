@@ -9,10 +9,10 @@
 
 ### Authentication
 
-- [ ] **AUTH-01**: User can create an account with email and password
-- [ ] **AUTH-02**: User session persists across browser refresh and tab close
-- [ ] **AUTH-03**: User can sign out from any page
-- [ ] **AUTH-04**: Protected routes redirect unauthenticated users to sign-in
+- [x] **AUTH-01**: User can create an account with email and password
+- [x] **AUTH-02**: User session persists across browser refresh and tab close
+- [x] **AUTH-03**: User can sign out from any page
+- [x] **AUTH-04**: Protected routes redirect unauthenticated users to sign-in
 
 ### Voice Clone
 

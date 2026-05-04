@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 ## Current Position
 
 Phase: 1 of 5 (Auth + Voice Clone Foundation)
-Plan: 1 of 5 in current phase
+Plan: 2 of 5 in current phase
 Status: In progress
-Last activity: 2026-05-04 — Completed plan 01-01 (Bootstrap + Wave 0 Test Stubs)
+Last activity: 2026-05-04 — Completed plan 01-02 (Auth Library + ProtectedRoute + SignIn/SignUp Pages)
 
-Progress: [█░░░░░░░░░] 4%
+Progress: [██░░░░░░░░] 8%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 3 min
-- Total execution time: 3 min
+- Total plans completed: 2
+- Average duration: 23 min
+- Total execution time: 46 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-auth-voice-clone-foundation | 1 | 3 min | 3 min |
+| 01-auth-voice-clone-foundation | 2 | 46 min | 23 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3 min)
-- Trend: baseline established
+- Last 5 plans: 01-01 (3 min), 01-02 (43 min)
+- Trend: 01-02 was longer due to TDD + jsdom React test environment setup
 
 *Updated after each plan completion*
 
@@ -49,6 +49,9 @@ Recent decisions affecting current work:
 - [Phase 4]: SPIKE REQUIRED before plan commit — Retell SIP-into-Conference is community-confirmed but no canonical example exists
 - [01-01]: Stub source files required for Vite Wave 0 test stubs — Vite resolves all import() at transform time; stubs throw "not yet implemented" until real impl ships in Plans 02/03/05
 - [01-01]: evaluateQuality() split as pure function separate from analyzeAudioQuality(blob) — enables unit testing without Web Audio API in jsdom
+- [01-02]: ProtectedRoute checks voice_clones table (status=active) before allowing access — redirects to /onboarding if no active clone
+- [01-02]: ProtectedRoute skips clone check on /onboarding path to prevent infinite redirect loop
+- [01-02]: Vitest supabase mock uses module-level mutable let variable (not vi.fn().mockReturnThis() chain) — avoids hoisting TDZ issues
 
 ### Pending Todos
 
@@ -62,6 +65,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-04T16:27:43Z
-Stopped at: Completed 01-01-PLAN.md (Bootstrap + Wave 0 Test Stubs)
+Last session: 2026-05-04T17:16:43Z
+Stopped at: Completed 01-02-PLAN.md (Auth Library + ProtectedRoute + SignIn/SignUp Pages)
 Resume file: None

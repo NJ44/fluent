@@ -11,7 +11,7 @@ Fluent ships in 5 phases. Phase 1 validates the emotional core: a signed-in user
 
 ## Phases
 
-- [ ] **Phase 1: Auth + Voice Clone Foundation** - Signed-in user records, validates, and owns a private cloned voice ready for use
+- [x] **Phase 1: Auth + Voice Clone Foundation** - Signed-in user records, validates, and owns a private cloned voice ready for use (completed 2026-05-04)
 - [ ] **Phase 2: Outbound Call Engine** - Cloned-voice AI call placed end-to-end with TCPA disclosure, post-call summary, stored transcript, and call history
 - [ ] **Phase 3: Live Transcript Streaming** - Real-time call transcript streams to the browser; microphone permissions resolved at app load
 - [ ] **Phase 4: Browser Audio Leg + Barge-In** - Three-leg Twilio Conference with browser audio; one-button barge-in (<300ms) and kill-switch live (HIGHEST RISK)
@@ -82,7 +82,7 @@ Fluent ships in 5 phases. Phase 1 validates the emotional core: a signed-in user
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Auth + Voice Clone Foundation | 4/5 | In Progress|  |
+| 1. Auth + Voice Clone Foundation | 5/5 | Complete   | 2026-05-04 |
 | 2. Outbound Call Engine | 0/TBD | Not started | - |
 | 3. Live Transcript Streaming | 0/TBD | Not started | - |
 | 4. Browser Audio Leg + Barge-In | 0/TBD | Not started | - |

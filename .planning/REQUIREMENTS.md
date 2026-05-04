@@ -142,24 +142,24 @@
 | CALL-01 | Phase 2 | Pending |
 | CALL-02 | Phase 2 | Pending |
 | CALL-03 | Phase 2 | Pending |
-| CALL-04 | Phase 5 | Pending |
 | CALL-05 | Phase 2 | Pending |
 | CALL-06 | Phase 2 | Pending |
 | CALL-07 | Phase 2 | Pending |
 | CALL-08 | Phase 2 | Pending |
+| POST-01 | Phase 2 | Pending |
+| POST-02 | Phase 2 | Pending |
+| HIST-01 | Phase 2 | Pending |
+| HIST-02 | Phase 2 | Pending |
 | LIVE-01 | Phase 3 | Pending |
 | LIVE-02 | Phase 3 | Pending |
+| LIVE-06 | Phase 3 | Pending |
 | LIVE-03 | Phase 4 | Pending |
 | LIVE-04 | Phase 4 | Pending |
 | LIVE-05 | Phase 4 | Pending |
-| LIVE-06 | Phase 3 | Pending |
-| POST-01 | Phase 2 | Pending |
-| POST-02 | Phase 2 | Pending |
+| CALL-04 | Phase 5 | Pending |
 | POST-03 | Phase 5 | Pending |
 | POST-04 | Phase 5 | Pending |
 | POST-05 | Phase 5 | Pending |
-| HIST-01 | Phase 2 | Pending |
-| HIST-02 | Phase 2 | Pending |
 | HIST-03 | Phase 5 | Pending |
 | BILL-01 | Phase 5 | Pending |
 | BILL-02 | Phase 5 | Pending |
@@ -169,10 +169,10 @@
 | BILL-06 | Phase 5 | Pending |
 
 **Coverage:**
-- v1 requirements: 40 total
-- Mapped to phases: 40
+- v1 requirements: 44 total
+- Mapped to phases: 44
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-05-04*
-*Last updated: 2026-05-04 after initial definition*
+*Last updated: 2026-05-04 — traceability corrected (44 requirements, 5 phases)*

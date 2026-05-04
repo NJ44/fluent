@@ -1,18 +1,34 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest'
 import type { HandlerEvent } from '@netlify/functions'
 
-// ─── Shared mocks ────────────────────────────────────────────────────────────
+// Set required env vars before any module is imported
+process.env.SUPABASE_URL = 'https://test.supabase.co'
+process.env.SUPABASE_SERVICE_KEY = 'test-service-key'
+process.env.RETELL_API_KEY = 'test-retell-key'
 
-const mockUpdate = vi.fn().mockReturnValue({
-  eq: vi.fn().mockReturnValue({ eq: vi.fn().mockResolvedValue({ error: null }) }),
+// ─── Shared mock state ────────────────────────────────────────────────────────
+// These are never cleared — we use .mock.calls.length checks relative to
+// the count captured before each test when needed.
+
+const mockUpdate = vi.fn()
+const mockInsert = vi.fn()
+const mockStorageRemove = vi.fn()
+const mockStorageUpload = vi.fn()
+const mockVoiceDelete = vi.fn()
+
+// Default implementations set once
+mockUpdate.mockReturnValue({
+  eq: vi.fn().mockReturnValue({
+    eq: vi.fn().mockResolvedValue({ error: null }),
+  }),
 })
-const mockInsert = vi.fn().mockResolvedValue({
+mockInsert.mockResolvedValue({
   data: [{ id: 'clone-1', retell_voice_id: 'rv-123', preview_audio_url: 'https://cdn.retell.ai/preview.wav' }],
   error: null,
 })
-const mockStorageRemove = vi.fn().mockResolvedValue({ error: null })
-const mockStorageUpload = vi.fn().mockResolvedValue({ error: null })
-const mockVoiceDelete = vi.fn().mockResolvedValue({})
+mockStorageRemove.mockResolvedValue({ error: null })
+mockStorageUpload.mockResolvedValue({ error: null })
+mockVoiceDelete.mockResolvedValue({})
 
 vi.mock('retell-sdk', () => ({
   default: vi.fn().mockImplementation(() => ({
@@ -25,12 +41,22 @@ vi.mock('@supabase/supabase-js', () => ({
     auth: {
       getUser: vi.fn().mockResolvedValue({ data: { user: { id: 'user-1' } }, error: null }),
     },
-    from: vi.fn(() => ({
+    from: vi.fn().mockReturnValue({
       update: mockUpdate,
       insert: mockInsert,
       select: vi.fn().mockReturnValue({
         eq: vi.fn().mockReturnValue({
           eq: vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+              single: vi.fn().mockResolvedValue({
+                data: { id: 'clone-1', retell_voice_id: 'rv-123', sample_url: 'voice-evidence/user-1/consent-123.webm' },
+                error: null,
+              }),
+              limit: vi.fn().mockResolvedValue({
+                data: [{ id: 'clone-1', retell_voice_id: 'rv-123', sample_url: 'voice-evidence/user-1/consent-123.webm' }],
+                error: null,
+              }),
+            }),
             single: vi.fn().mockResolvedValue({
               data: { id: 'clone-1', retell_voice_id: 'rv-123', sample_url: 'voice-evidence/user-1/consent-123.webm' },
               error: null,
@@ -42,12 +68,12 @@ vi.mock('@supabase/supabase-js', () => ({
           }),
         }),
       }),
-    })),
+    }),
     storage: {
-      from: vi.fn(() => ({
+      from: vi.fn().mockReturnValue({
         remove: mockStorageRemove,
         upload: mockStorageUpload,
-      })),
+      }),
     },
   })),
 }))
@@ -64,31 +90,43 @@ global.fetch = vi.fn().mockResolvedValue({
   }),
 } as Response)
 
-// ─── clone-voice tests ───────────────────────────────────────────────────────
+// ─── Helper: build a proper multipart body ────────────────────────────────────
 
-const mockCloneEvent: Partial<HandlerEvent> = {
-  httpMethod: 'POST',
-  body: null,
-  isBase64Encoded: false,
-  headers: {
-    authorization: 'Bearer mock-token',
-    'content-type': 'multipart/form-data; boundary=---test',
-  },
-  queryStringParameters: null,
-  multiValueQueryStringParameters: null,
-  path: '/.netlify/functions/clone-voice',
+function buildMultipartBody(
+  boundary: string,
+  action: string,
+): { body: string; contentType: string } {
+  const crlf = '\r\n'
+  const body = [
+    `--${boundary}${crlf}`,
+    `Content-Disposition: form-data; name="action"${crlf}${crlf}`,
+    `${action}${crlf}`,
+    `--${boundary}${crlf}`,
+    `Content-Disposition: form-data; name="mainAudio"; filename="voice-sample.webm"${crlf}`,
+    `Content-Type: audio/webm${crlf}${crlf}`,
+    `FAKE_AUDIO_DATA${crlf}`,
+    `--${boundary}${crlf}`,
+    `Content-Disposition: form-data; name="passphraseAudio"; filename="consent.webm"${crlf}`,
+    `Content-Type: audio/webm${crlf}${crlf}`,
+    `FAKE_CONSENT_DATA${crlf}`,
+    `--${boundary}--${crlf}`,
+  ].join('')
+  return {
+    body,
+    contentType: `multipart/form-data; boundary=${boundary}`,
+  }
 }
+
+// ─── clone-voice tests ────────────────────────────────────────────────────────
 
 describe('clone-voice handler', () => {
   beforeEach(() => {
-    vi.clearAllMocks()
-    mockUpdate.mockReturnValue({
-      eq: vi.fn().mockReturnValue({ eq: vi.fn().mockResolvedValue({ error: null }) }),
-    })
-    mockInsert.mockResolvedValue({
-      data: [{ id: 'clone-1', retell_voice_id: 'rv-123', preview_audio_url: 'https://cdn.retell.ai/preview.wav' }],
-      error: null,
-    })
+    // Reset call history without clearing implementations
+    mockUpdate.mockClear()
+    mockInsert.mockClear()
+    mockStorageUpload.mockClear()
+    ;(global.fetch as ReturnType<typeof vi.fn>).mockClear()
+    // Ensure fetch mock is set up for Retell
     ;(global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
       ok: true,
       status: 200,
@@ -97,6 +135,12 @@ describe('clone-voice handler', () => {
         preview_audio_url: 'https://cdn.retell.ai/preview.wav',
       }),
     } as Response)
+    // Ensure mockUpdate chain still works after mockClear
+    mockUpdate.mockReturnValue({
+      eq: vi.fn().mockReturnValue({
+        eq: vi.fn().mockResolvedValue({ error: null }),
+      }),
+    })
   })
 
   test('handler is defined', async () => {
@@ -107,52 +151,58 @@ describe('clone-voice handler', () => {
 
   test('returns 401 when Authorization header is missing', async () => {
     const { handler } = await import('../netlify/functions/clone-voice')
-    const event = {
-      ...mockCloneEvent,
+    const event: HandlerEvent = {
+      httpMethod: 'POST',
+      body: null,
+      isBase64Encoded: false,
       headers: {},
-    } as HandlerEvent
+      queryStringParameters: null,
+      multiValueQueryStringParameters: null,
+      path: '/.netlify/functions/clone-voice',
+      rawUrl: '',
+      rawQuery: '',
+    }
     const result = await handler(event, {} as any)
-    expect(result.statusCode).toBe(401)
+    expect(result!.statusCode).toBe(401)
   })
 
   test('returns 200 for OPTIONS preflight', async () => {
     const { handler } = await import('../netlify/functions/clone-voice')
-    const event = {
-      ...mockCloneEvent,
+    const event: HandlerEvent = {
       httpMethod: 'OPTIONS',
-    } as HandlerEvent
+      body: null,
+      isBase64Encoded: false,
+      headers: { authorization: 'Bearer mock-token' },
+      queryStringParameters: null,
+      multiValueQueryStringParameters: null,
+      path: '/.netlify/functions/clone-voice',
+      rawUrl: '',
+      rawQuery: '',
+    }
     const result = await handler(event, {} as any)
-    expect(result.statusCode).toBe(200)
+    expect(result!.statusCode).toBe(200)
   })
 
   test('supersedes old clone on re-clone action', async () => {
     const { handler } = await import('../netlify/functions/clone-voice')
 
-    // Build a simple multipart body with action=reclone
-    const boundary = '---testboundary'
-    const body =
-      `--${boundary}\r\n` +
-      `Content-Disposition: form-data; name="action"\r\n\r\n` +
-      `reclone\r\n` +
-      `--${boundary}\r\n` +
-      `Content-Disposition: form-data; name="mainAudio"; filename="voice-sample.webm"\r\n` +
-      `Content-Type: audio/webm\r\n\r\n` +
-      `FAKE_AUDIO_DATA\r\n` +
-      `--${boundary}\r\n` +
-      `Content-Disposition: form-data; name="passphraseAudio"; filename="consent.webm"\r\n` +
-      `Content-Type: audio/webm\r\n\r\n` +
-      `FAKE_CONSENT_DATA\r\n` +
-      `--${boundary}--\r\n`
+    const boundary = 'testboundary123'
+    const { body, contentType } = buildMultipartBody(boundary, 'reclone')
 
-    const event = {
-      ...mockCloneEvent,
+    const event: HandlerEvent = {
+      httpMethod: 'POST',
       body,
       isBase64Encoded: false,
       headers: {
         authorization: 'Bearer mock-token',
-        'content-type': `multipart/form-data; boundary=${boundary}`,
+        'content-type': contentType,
       },
-    } as HandlerEvent
+      queryStringParameters: null,
+      multiValueQueryStringParameters: null,
+      path: '/.netlify/functions/clone-voice',
+      rawUrl: '',
+      rawQuery: '',
+    }
 
     await handler(event, {} as any)
 
@@ -163,34 +213,25 @@ describe('clone-voice handler', () => {
   })
 })
 
-// ─── delete-voice tests ──────────────────────────────────────────────────────
-
-const mockDeleteEvent: Partial<HandlerEvent> = {
-  httpMethod: 'POST',
-  body: JSON.stringify({ clone_id: 'clone-1' }),
-  isBase64Encoded: false,
-  headers: {
-    authorization: 'Bearer mock-token',
-    'content-type': 'application/json',
-  },
-  queryStringParameters: null,
-  multiValueQueryStringParameters: null,
-  path: '/.netlify/functions/delete-voice',
-}
+// ─── delete-voice tests ───────────────────────────────────────────────────────
 
 describe('delete-voice handler', () => {
   beforeEach(() => {
-    vi.clearAllMocks()
-    mockUpdate.mockReturnValue({
-      eq: vi.fn().mockReturnValue({ eq: vi.fn().mockResolvedValue({ error: null }) }),
-    })
-    mockStorageRemove.mockResolvedValue({ error: null })
-    mockVoiceDelete.mockResolvedValue({})
+    mockUpdate.mockClear()
+    mockStorageRemove.mockClear()
+    mockVoiceDelete.mockClear()
+    ;(global.fetch as ReturnType<typeof vi.fn>).mockClear()
     ;(global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
       ok: true,
       status: 200,
       json: async () => ({}),
     } as Response)
+    mockUpdate.mockReturnValue({
+      eq: vi.fn().mockReturnValue({
+        eq: vi.fn().mockResolvedValue({ error: null }),
+      }),
+    })
+    mockStorageRemove.mockResolvedValue({ error: null })
   })
 
   test('handler is defined', async () => {
@@ -201,18 +242,40 @@ describe('delete-voice handler', () => {
 
   test('returns 401 when Authorization header is missing', async () => {
     const { handler } = await import('../netlify/functions/delete-voice')
-    const event = {
-      ...mockDeleteEvent,
+    const event: HandlerEvent = {
+      httpMethod: 'POST',
+      body: JSON.stringify({ clone_id: 'clone-1' }),
+      isBase64Encoded: false,
       headers: {},
-    } as HandlerEvent
+      queryStringParameters: null,
+      multiValueQueryStringParameters: null,
+      path: '/.netlify/functions/delete-voice',
+      rawUrl: '',
+      rawQuery: '',
+    }
     const result = await handler(event, {} as any)
-    expect(result.statusCode).toBe(401)
+    expect(result!.statusCode).toBe(401)
   })
 
   test('delete flow marks DB as deleted and calls Retell + Storage', async () => {
     const { handler } = await import('../netlify/functions/delete-voice')
 
-    const result = await handler(mockDeleteEvent as HandlerEvent, {} as any)
+    const event: HandlerEvent = {
+      httpMethod: 'POST',
+      body: JSON.stringify({ clone_id: 'clone-1' }),
+      isBase64Encoded: false,
+      headers: {
+        authorization: 'Bearer mock-token',
+        'content-type': 'application/json',
+      },
+      queryStringParameters: null,
+      multiValueQueryStringParameters: null,
+      path: '/.netlify/functions/delete-voice',
+      rawUrl: '',
+      rawQuery: '',
+    }
+
+    const result = await handler(event, {} as any)
 
     // Storage remove must be called
     expect(mockStorageRemove).toHaveBeenCalled()
@@ -228,6 +291,6 @@ describe('delete-voice handler', () => {
       expect.objectContaining({ method: 'DELETE' })
     )
 
-    expect(result.statusCode).toBe(200)
+    expect(result!.statusCode).toBe(200)
   })
 })

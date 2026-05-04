@@ -3,6 +3,7 @@ import { AuthProvider } from './contexts/AuthProvider';
 import ProtectedRoute from './components/ProtectedRoute';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import VoiceOnboarding from './pages/VoiceOnboarding';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
           } />
           <Route path="/onboarding" element={
             <ProtectedRoute>
-              <div className="p-8 text-lg">Voice onboarding — coming in Plan 04</div>
+              <VoiceOnboarding />
             </ProtectedRoute>
           } />
           <Route path="/" element={<Navigate to="/sign-in" replace />} />

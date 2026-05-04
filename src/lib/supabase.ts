@@ -1,4 +1,14 @@
-// STUB — implemented in Plan 02
-// This file exists so Wave 0 test stubs can resolve the import path.
-// Tests will fail with a meaningful error until the real implementation is added.
-throw new Error('src/lib/supabase not yet implemented — will be created in Plan 02');
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true,
+  },
+});
+
+export default supabase;

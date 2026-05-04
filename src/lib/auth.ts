@@ -1,14 +1,95 @@
-// STUB — implemented in Plan 02
-// This file exists so Wave 0 test stubs can resolve the import path.
-// Tests will fail with a meaningful error until the real implementation is added.
-export function signup(_credentials: unknown): Promise<never> {
-  return Promise.reject(new Error('src/lib/auth not yet implemented — will be created in Plan 02'));
+import { supabase } from './supabase';
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  createdAt: string;
 }
 
-export function login(_credentials: unknown): Promise<never> {
-  return Promise.reject(new Error('src/lib/auth not yet implemented — will be created in Plan 02'));
+export interface LoginCredentials {
+  email: string;
+  password: string;
 }
 
-export function logout(): Promise<never> {
-  return Promise.reject(new Error('src/lib/auth not yet implemented — will be created in Plan 02'));
+export interface SignupCredentials {
+  name: string;
+  email: string;
+  password: string;
+  // company field deliberately omitted
+}
+
+function transformSupabaseUser(supabaseUser: {
+  id: string;
+  email?: string | null;
+  created_at: string;
+  user_metadata?: { name?: string };
+}): User {
+  return {
+    id: supabaseUser.id,
+    email: supabaseUser.email || '',
+    name: supabaseUser.user_metadata?.name || '',
+    createdAt: supabaseUser.created_at,
+  };
+}
+
+export async function signup(credentials: SignupCredentials): Promise<User> {
+  const { data, error } = await supabase.auth.signUp({
+    email: credentials.email,
+    password: credentials.password,
+    options: {
+      data: {
+        name: credentials.name,
+      },
+    },
+  });
+
+  if (error) throw error;
+  if (!data.user) throw new Error('Signup failed — no user returned');
+
+  return transformSupabaseUser(data.user);
+}
+
+export async function login(credentials: LoginCredentials): Promise<User> {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: credentials.email,
+    password: credentials.password,
+  });
+
+  if (error) throw error;
+  if (!data.user) throw new Error('Login failed — no user returned');
+
+  return transformSupabaseUser(data.user);
+}
+
+export async function logout(): Promise<void> {
+  const { error } = await supabase.auth.signOut();
+  if (error) throw error;
+}
+
+export async function getCurrentUser(): Promise<User | null> {
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) return null;
+  return transformSupabaseUser(data.user);
+}
+
+export function onAuthStateChange(
+  callback: (user: User | null) => void
+): () => void {
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange((_event, session) => {
+    if (session?.user) {
+      callback(transformSupabaseUser(session.user));
+    } else {
+      callback(null);
+    }
+  });
+
+  return () => subscription.unsubscribe();
+}
+
+export async function resetPassword(email: string): Promise<void> {
+  const { error } = await supabase.auth.resetPasswordForEmail(email);
+  if (error) throw error;
 }

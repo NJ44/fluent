@@ -139,7 +139,7 @@ export const SonicWaveformHero = ({ onSubmit }: SonicHeroProps) => {
         <motion.div custom={3} variants={fadeUpVariants} initial="hidden" animate="visible">
           {submitted ? (
             <div className="flex items-center justify-center gap-2 px-4 sm:px-8 py-4 bg-teal-50 border border-teal-300 rounded-xl text-teal-700 font-semibold text-sm sm:text-lg text-center">
-              You're on the list! We'll be in touch.
+              You're on the waitlist! We'll be in touch.
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -165,7 +165,7 @@ export const SonicWaveformHero = ({ onSubmit }: SonicHeroProps) => {
                     height="50px"
                     borderRadius="14px"
                   >
-                    Join Beta
+                    Join Waitlist
                   </FishyButton>
                 </div>
               )}

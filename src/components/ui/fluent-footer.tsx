@@ -4,7 +4,7 @@ const LINKS = {
   Product: [
     { label: "Features", href: "#features" },
     { label: "How it Works", href: "#how-it-works" },
-    { label: "Join Beta", href: "#hero" },
+    { label: "Join Waitlist", href: "#hero" },
   ],
   Company: [
     { label: "About", href: "#" },

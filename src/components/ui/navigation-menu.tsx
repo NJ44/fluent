@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 const navItems = [
   { name: "Features", href: "#features" },
   { name: "About", href: "/about" },
-  { name: "Join Beta", href: "#hero" },
+  { name: "Join Waitlist", href: "#hero" },
 ];
 
 const EXPAND_SCROLL_THRESHOLD = 80;
@@ -150,7 +150,7 @@ export function AnimatedNav() {
               className={cn(
                 "text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors px-1.5 sm:px-2 py-1 rounded-full hover:bg-slate-100 whitespace-nowrap",
                 item.name === "Features" && "hidden sm:block",
-                item.name === "Join Beta" && "text-teal-600 hover:text-teal-700"
+                item.name === "Join Waitlist" && "text-teal-600 hover:text-teal-700"
               )}
             >
               {item.name}

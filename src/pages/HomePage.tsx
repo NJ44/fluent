@@ -7,6 +7,7 @@ import { AnimatedNav } from '@/components/ui/navigation-menu';
 import { FluentFooter } from '@/components/ui/fluent-footer';
 import { FaqSection } from '@/components/ui/faq-section';
 import FeaturesSection from '@/components/ui/features-section';
+import { HowItWorks } from '@/components/ui/how-it-works';
 import { supabase } from '@/lib/supabase';
 
 async function saveBetaSignup(email: string) {
@@ -31,7 +32,10 @@ export default function HomePage() {
           <SonicWaveformHero onSubmit={handleBetaSubmit} />
         </section>
 
-        {/* Feature cards (below hero) */}
+        {/* How it works */}
+        <HowItWorks />
+
+        {/* Feature cards */}
         <FeaturesSection />
 
         {/* Cinematic scroll section */}
@@ -75,10 +79,10 @@ export default function HomePage() {
               </div>
 
               <h2 className="text-2xl font-bold text-slate-900 mb-2">
-                You're on the list!
+                You're on the waitlist!
               </h2>
               <p className="text-slate-500 text-sm mb-6 leading-relaxed">
-                We'll reach out when your beta spot is ready. Early members lock in the lowest pricing tier — forever.
+                We'll reach out when your spot is ready. Early members lock in the lowest pricing tier — forever.
               </p>
 
               <div className="bg-teal-50 border border-teal-100 rounded-xl p-4 mb-6 text-left">

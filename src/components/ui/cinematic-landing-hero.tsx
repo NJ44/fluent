@@ -200,7 +200,7 @@ export function CinematicHero({
   metricValue = 99,
   metricLabel = "% Accuracy",
   ctaHeading = "Stop putting off that call.",
-  ctaDescription = "Aloud's private beta is opening soon. Be first to make calls without saying a word.",
+  ctaDescription = "Join the Aloud waitlist — be first to make calls without saying a word.",
   onEmailSubmit,
   className,
   ...props
@@ -350,7 +350,7 @@ export function CinematicHero({
         </p>
         {submitted ? (
           <div className="flex items-center justify-center gap-3 px-4 sm:px-8 py-4 rounded-2xl bg-teal-900/40 border border-teal-400/30 text-teal-300 font-semibold text-sm sm:text-lg text-center max-w-sm mx-auto">
-            You're on the list — we'll be in touch soon.
+            You're on the waitlist — we'll be in touch soon.
           </div>
         ) : (
           <form
@@ -389,7 +389,7 @@ export function CinematicHero({
                   height="50px"
                   borderRadius="14px"
                 >
-                  Join Beta
+                  Join Waitlist
                 </FishyButton>
               </div>
             )}

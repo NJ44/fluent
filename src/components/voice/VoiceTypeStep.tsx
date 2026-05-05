@@ -10,7 +10,7 @@ export default function VoiceTypeStep({ onSelectOwn, onSelectAI }: VoiceTypeStep
         <div className="mb-10 text-center">
           <h1 className="text-2xl font-semibold text-gray-900">Choose your voice</h1>
           <p className="mt-2 text-sm text-gray-500">
-            Fluent will speak on your behalf — pick how you'd like to sound.
+            Aloud will speak on your behalf — pick how you'd like to sound.
           </p>
         </div>
 

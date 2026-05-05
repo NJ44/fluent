@@ -220,7 +220,7 @@ export function IntentForm({ onSubmit, isLoading = false }: IntentFormProps) {
         </div>
         {callType === 'inbound' && (
           <div className="rounded-lg bg-blue-50 border border-blue-200 p-3 text-blue-700 text-sm">
-            Your AI assistant will answer incoming calls to your Fluent number and speak in your voice.
+            Your AI assistant will answer incoming calls to your Aloud number and speak in your voice.
           </div>
         )}
       </div>

@@ -172,7 +172,7 @@ export function CinematicLanding({ onSignup }: CinematicLandingProps) {
             {/* Headline */}
             <div style={{ textAlign: "center" }}>
               <span style={{ fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: "#00c896", fontWeight: 600 }}>
-                Powered by Fluent AI
+                Powered by Aloud
               </span>
               <h2 style={{ marginTop: 16, fontSize: "clamp(32px,5vw,64px)", fontWeight: 800, color: "#fff", lineHeight: 1.1, letterSpacing: "-0.03em" }}>
                 Clone your voice.<br />
@@ -181,7 +181,7 @@ export function CinematicLanding({ onSignup }: CinematicLandingProps) {
                 </span>
               </h2>
               <p style={{ marginTop: 16, color: "rgba(255,255,255,0.5)", fontSize: 16, maxWidth: 480, margin: "16px auto 0" }}>
-                Fluent's private beta is opening soon. Drop your email and we'll reach out when your spot is ready.
+                Aloud's private beta is opening soon. Drop your email and we'll reach out when your spot is ready.
               </p>
             </div>
 
@@ -196,7 +196,7 @@ export function CinematicLanding({ onSignup }: CinematicLandingProps) {
                 <div className="mockup-screen">
                   {/* Status */}
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 11 }}>Fluent</span>
+                    <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 11 }}>Aloud</span>
                     <span style={{ color: "#00c896", fontSize: 11, fontWeight: 600 }}>● Recording</span>
                   </div>
 

@@ -50,7 +50,7 @@ export default function VoiceOnboarding({
   const consentText = useMemo(() => {
     const name = user?.name || 'User';
     const date = new Date().toLocaleDateString();
-    return `I, ${name}, on ${date}, consent to my voice being used by Fluent`;
+    return `I, ${name}, on ${date}, consent to my voice being used by Aloud`;
   }, [user?.name]);
 
   const [state, setState] = useState<OnboardingState>({

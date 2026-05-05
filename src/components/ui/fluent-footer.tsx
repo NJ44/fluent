@@ -51,7 +51,7 @@ export function FluentFooter() {
         <div className="flex flex-col items-center text-center mb-6">
           <div className="flex items-center gap-2 mb-2">
             <Mic className="w-5 h-5 text-teal-400" />
-            <span className="text-white font-black text-xl tracking-tight">Fluent</span>
+            <span className="text-white font-black text-xl tracking-tight">Aloud</span>
           </div>
           <p className="text-slate-400 text-xs max-w-xs leading-relaxed">
             Your voice, cloned perfectly. The fastest way to create natural AI voice.
@@ -82,7 +82,7 @@ export function FluentFooter() {
         </div>
 
         <div className="border-t border-white/[0.06] pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-slate-600 text-xs">© 2026 Fluent. All rights reserved.</p>
+          <p className="text-slate-600 text-xs">© 2026 Aloud. All rights reserved.</p>
           <p className="text-slate-700 text-xs">Built for the future of voice.</p>
         </div>
       </div>

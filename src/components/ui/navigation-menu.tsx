@@ -130,7 +130,7 @@ export function AnimatedNav() {
           className="flex-shrink-0 font-bold text-slate-900 pr-3 tracking-tight cursor-pointer"
           onClick={(e) => { e.stopPropagation(); navigate("/"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
         >
-          Fluent
+          Aloud
         </motion.span>
 
         <motion.div variants={itemVariants} className="w-px h-4 bg-slate-200 mr-1" />

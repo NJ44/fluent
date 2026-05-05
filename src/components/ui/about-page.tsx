@@ -34,7 +34,7 @@ export default function AboutPage({
 
           <div className="grid gap-6 md:grid-cols-2 md:gap-12">
             <h1 className="text-3xl md:text-4xl font-semibold text-slate-900 leading-snug">
-              The Fluent{" "}
+              The Aloud{" "}
               <span className="text-teal-600">ecosystem</span>{" "}
               <span className="text-slate-400">
                 brings together voice models, generation APIs, and real-time speech infrastructure.
@@ -42,7 +42,7 @@ export default function AboutPage({
             </h1>
             <div className="space-y-6 text-slate-500">
               <p>
-                Fluent is evolving beyond voice cloning. It supports an entire ecosystem — from real-time speech generation to APIs and SDKs helping developers build the next generation of voice-powered applications.
+                Aloud is evolving beyond voice cloning. It supports an entire ecosystem — from real-time speech generation to APIs and SDKs helping developers build the next generation of voice-powered applications.
               </p>
               <Button
                 asChild
@@ -70,7 +70,7 @@ export default function AboutPage({
               About Us
             </h1>
             <p className="text-slate-500">
-              Fluent is a team dedicated to making voice technology accessible, authentic, and instant. We believe your voice is your identity — and it should be available everywhere you need it.
+              Aloud is a team dedicated to making voice technology accessible, authentic, and instant. We believe your voice is your identity — and it should be available everywhere you need it.
             </p>
           </div>
 
@@ -110,7 +110,7 @@ export default function AboutPage({
                 <div className="p-6">
                   <h3 className="text-xl font-bold">Built for Speed</h3>
                   <p className="mt-2 text-sm text-slate-300">
-                    Sub-second generation means Fluent fits into real-time workflows, voice assistants, and live interactions — without compromise.
+                    Sub-second generation means Aloud fits into real-time workflows, voice assistants, and live interactions — without compromise.
                   </p>
                   <Button
                     asChild

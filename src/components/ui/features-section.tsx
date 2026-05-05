@@ -63,7 +63,7 @@ const GenerationIllustration = () => (
     <div className="w-fit mb-3">
       <Zap className="w-3.5 h-3.5 fill-teal-400 stroke-teal-400" />
       <p className="mt-2 line-clamp-2 text-sm text-slate-700">
-        "Hello, this is a test of Fluent's voice generation engine."
+        "Hello, this is a test of Aloud's voice generation engine."
       </p>
     </div>
     <div className="flex items-center gap-2 mb-3">
@@ -98,16 +98,16 @@ export default function FeaturesSection() {
     <section className="py-24 bg-white">
       <div className="mx-auto w-full max-w-5xl px-6">
         <h2 className="text-slate-900 max-w-2xl text-balance text-4xl font-semibold tracking-tight">
-          Everything your voice needs, in one place.
+          Everything you need to make any call — without hesitation.
         </h2>
 
         <div className="mt-16 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {/* Card 1 */}
           <Card variant="soft" className="overflow-hidden p-6">
             <Mic className="text-teal-600 size-5" />
-            <h3 className="text-slate-900 mt-5 text-lg font-semibold">30-Second Sample</h3>
+            <h3 className="text-slate-900 mt-5 text-lg font-semibold">Sounds like you, not a bot</h3>
             <p className="text-slate-500 mt-3 text-balance text-sm leading-relaxed">
-              Record a short passage. Fluent's AI builds a high-fidelity voice model — no studio, no script, no expertise required.
+              Clone your voice in 30 seconds. The person on the other end hears your voice — your tone, your cadence, your timbre. Not a generic AI.
             </p>
             <RecordingIllustration />
           </Card>
@@ -115,9 +115,9 @@ export default function FeaturesSection() {
           {/* Card 2 */}
           <Card variant="soft" className={cn("group overflow-hidden px-6 pt-6")}>
             <AudioWaveform className="text-teal-600 size-5" />
-            <h3 className="text-slate-900 mt-5 text-lg font-semibold">HD Voice Output</h3>
+            <h3 className="text-slate-900 mt-5 text-lg font-semibold">You're in control</h3>
             <p className="text-slate-500 mt-3 text-balance text-sm leading-relaxed">
-              Every nuance preserved — breath, timbre, cadence. The output is indistinguishable from your real voice.
+              Watch the live transcript as the call unfolds. Jump in with one tap anytime. You're present — just not speaking.
             </p>
             <QualityIllustration />
           </Card>
@@ -125,9 +125,9 @@ export default function FeaturesSection() {
           {/* Card 3 */}
           <Card variant="soft" className={cn("group overflow-hidden px-6 pt-6")}>
             <Zap className="text-teal-600 size-5" />
-            <h3 className="text-slate-900 mt-5 text-lg font-semibold">~0.8s Generation</h3>
+            <h3 className="text-slate-900 mt-5 text-lg font-semibold">Handles the full conversation</h3>
             <p className="text-slate-500 mt-3 text-balance text-sm leading-relaxed">
-              Sub-second generation from text to audio. Fast enough for real-time applications, voice APIs, and live use cases.
+              Aloud navigates back-and-forth naturally — answers questions, responds, gets to the point. Real calls. Not just voicemails.
             </p>
             <div className="mask-b-from-50 -mx-2 -mt-2 px-2 pt-2">
               <GenerationIllustration />

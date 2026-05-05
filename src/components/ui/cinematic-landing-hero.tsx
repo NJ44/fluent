@@ -188,7 +188,7 @@ export interface CinematicHeroProps extends React.HTMLAttributes<HTMLDivElement>
 }
 
 export function CinematicHero({
-  brandName = "Fluent",
+  brandName = "Aloud",
   tagline1 = "Make any call.",
   tagline2 = "Without speaking.",
   cardHeading = "You type. We call. They hear you.",
@@ -200,7 +200,7 @@ export function CinematicHero({
   metricValue = 99,
   metricLabel = "% Accuracy",
   ctaHeading = "Stop putting off that call.",
-  ctaDescription = "Fluent's private beta is opening soon. Be first to make calls without saying a word.",
+  ctaDescription = "Aloud's private beta is opening soon. Be first to make calls without saying a word.",
   onEmailSubmit,
   className,
   ...props
@@ -428,7 +428,7 @@ export function CinematicHero({
                       <div className="ch-phone-widget flex justify-between items-center mb-6">
                         <div className="flex flex-col">
                           <span className="text-[10px] text-teal-400/60 uppercase tracking-widest font-bold mb-1">Live</span>
-                          <span className="text-lg font-bold tracking-tight text-white">Fluent AI</span>
+                          <span className="text-lg font-bold tracking-tight text-white">Aloud</span>
                         </div>
                         <div className="flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse shadow-[0_0_6px_rgba(0,200,150,0.8)]" />
@@ -456,7 +456,7 @@ export function CinematicHero({
 
                       {/* Transcript bubble */}
                       <div className="ch-phone-widget widget-depth rounded-2xl p-3 mb-3">
-                        <span className="text-[9px] text-teal-400/50 uppercase tracking-widest font-bold block mb-1.5">Fluent AI</span>
+                        <span className="text-[9px] text-teal-400/50 uppercase tracking-widest font-bold block mb-1.5">Aloud</span>
                         <p className="text-white/80 text-xs leading-relaxed">
                           "Hello! I noticed you submitted a request earlier. How can I help you today?"
                         </p>

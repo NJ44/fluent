@@ -74,6 +74,10 @@ export default function CallDetail() {
   const [isBarging, setIsBarging] = useState(false);
   const [isEndingCall, setIsEndingCall] = useState(false);
   const [bargeError, setBargeError] = useState('');
+  const [quickChoiceVisible, setQuickChoiceVisible] = useState(false);
+  const [quickChoiceOptions, setQuickChoiceOptions] = useState<string[]>([]);
+  const [quickChoiceAnswered, setQuickChoiceAnswered] = useState(false);
+  const [isGeneratingChoices, setIsGeneratingChoices] = useState(false);
 
   const handleBargeIn = async () => {
     if (!callId) return;
@@ -110,6 +114,57 @@ export default function CallDetail() {
     } catch { /* ignore */ } finally {
       setIsEndingCall(false);
     }
+  };
+
+  const SIGNAL_PHRASES = ['let me check', 'let me think', 'one moment', 'let me look into', 'let me verify'];
+
+  useEffect(() => {
+    if (!call || call.status !== 'active' || !call.transcript || quickChoiceVisible || quickChoiceAnswered) return;
+
+    const lastAITurn = call.transcript.split('\n').filter(l =>
+      l.toLowerCase().startsWith('ai:') || l.toLowerCase().startsWith('agent:')
+    ).pop() ?? '';
+
+    const hasSignal = SIGNAL_PHRASES.some(phrase => lastAITurn.toLowerCase().includes(phrase));
+    if (!hasSignal) return;
+
+    // Debounce — only trigger once per signal, not on every update
+    setIsGeneratingChoices(true);
+    setQuickChoiceVisible(true);
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) { setIsGeneratingChoices(false); return; }
+      fetch('/api/generate-choices', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
+        body: JSON.stringify({ callId, transcript: call.transcript }),
+      })
+        .then(r => r.json())
+        .then(data => {
+          setQuickChoiceOptions((data as { options?: string[] }).options ?? []);
+          setIsGeneratingChoices(false);
+        })
+        .catch(() => {
+          setQuickChoiceOptions(['Yes, proceed', 'Try a different approach', 'End the call']);
+          setIsGeneratingChoices(false);
+        });
+    });
+  }, [call?.transcript]);
+
+  const handleQuickAnswer = async (answer: string) => {
+    setQuickChoiceAnswered(true);
+    setQuickChoiceVisible(false);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+      await fetch('/api/inject-answer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
+        body: JSON.stringify({ callId, answer }),
+      });
+    } catch { /* non-fatal */ }
+    // Reset for next signal
+    setTimeout(() => setQuickChoiceAnswered(false), 5000);
   };
 
   useEffect(() => {
@@ -305,6 +360,49 @@ export default function CallDetail() {
         {!call.transcript && isTerminal && !isFailed && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
             <p className="text-gray-400 text-sm">No transcript available for this call.</p>
+          </div>
+        )}
+
+        {/* AI quick-choice overlay — appears when AI says signal phrase */}
+        {call.status === 'active' && quickChoiceVisible && (
+          <div className="bg-white rounded-xl shadow-sm border-2 border-blue-200 p-4 mb-4 relative">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+                <p className="text-sm font-medium text-gray-800">AI needs your input</p>
+              </div>
+              <button
+                onClick={() => setQuickChoiceVisible(false)}
+                className="text-gray-400 hover:text-gray-600 text-lg leading-none"
+              >
+                ×
+              </button>
+            </div>
+            {isGeneratingChoices ? (
+              <div className="flex items-center gap-2 py-2">
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600" />
+                <span className="text-sm text-gray-500">Generating options...</span>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                {quickChoiceOptions.map((option, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleQuickAnswer(option)}
+                    className="w-full text-left rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-gray-800 hover:border-blue-400 hover:bg-blue-50 transition-colors"
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Answer confirmed toast */}
+        {call.status === 'active' && quickChoiceAnswered && !quickChoiceVisible && (
+          <div className="bg-green-50 border border-green-200 rounded-xl p-3 mb-4 text-sm text-green-700 flex items-center gap-2">
+            <span>✓</span> Answer sent to AI
           </div>
         )}
 

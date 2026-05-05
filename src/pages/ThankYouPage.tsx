@@ -9,7 +9,7 @@ export default function ThankYouPage() {
       {/* Brand */}
       <div className="flex items-center gap-2 mb-12">
         <Mic className="w-5 h-5 text-teal-600" />
-        <span className="font-black text-slate-900 text-lg tracking-tight">Fluent</span>
+        <span className="font-black text-slate-900 text-lg tracking-tight">Aloud</span>
       </div>
 
       {/* Check icon */}
@@ -45,7 +45,7 @@ export default function ThankYouPage() {
         className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
-        Back to Fluent
+        Back to Aloud
       </button>
     </div>
   );

@@ -10,5 +10,5 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["netlify/functions/**/*.ts"]
+  "include": ["api/**/*.ts", "src/types/calls.ts"]
 }

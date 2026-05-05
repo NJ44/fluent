@@ -10,7 +10,7 @@ const FAQS = [
   },
   {
     q: "How accurate is the voice clone?",
-    a: "Fluent achieves a 99.2% voice match score on standard speaker-verification benchmarks. In blind listening tests, people can't reliably distinguish our output from the real thing.",
+    a: "Aloud achieves a 99.2% voice match score on standard speaker-verification benchmarks. In blind listening tests, people can't reliably distinguish our output from the real thing.",
   },
   {
     q: "How fast is speech generation?",

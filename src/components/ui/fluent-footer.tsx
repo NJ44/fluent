@@ -1,6 +1,5 @@
 import type { MouseEvent } from "react";
 import { DitheringShader } from "@/components/ui/dithering-shader";
-import { Mic } from "lucide-react";
 
 const LINKS = {
   Product: [
@@ -50,7 +49,7 @@ export function FluentFooter() {
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-8">
         <div className="flex flex-col items-center text-center mb-6">
           <div className="flex items-center gap-2 mb-2">
-            <Mic className="w-5 h-5 text-teal-400" />
+            <img src="/Aloud_logo.png" className="w-6 h-6 object-contain" alt="Aloud" />
             <span className="text-white font-black text-xl tracking-tight">Aloud</span>
           </div>
           <p className="text-slate-400 text-xs max-w-xs leading-relaxed">

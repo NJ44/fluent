@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion, useScroll, useMotionValueEvent, type Variants } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Mic, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -123,7 +123,7 @@ export function AnimatedNav() {
           className="flex-shrink-0 flex items-center pl-4 pr-1 cursor-pointer"
           onClick={(e) => { e.stopPropagation(); navigate("/"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
         >
-          <Mic className="h-5 w-5 text-teal-600" />
+          <img src="/Aloud_logo.png" className="h-7 w-7 object-contain" alt="Aloud" />
         </motion.div>
         <motion.span
           variants={brandVariants}

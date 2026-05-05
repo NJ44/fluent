@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Mic, CheckCircle2, ArrowLeft } from 'lucide-react';
+import { CheckCircle2, ArrowLeft } from 'lucide-react';
 
 export default function ThankYouPage() {
   const navigate = useNavigate();
@@ -8,7 +8,7 @@ export default function ThankYouPage() {
     <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 text-center">
       {/* Brand */}
       <div className="flex items-center gap-2 mb-12">
-        <Mic className="w-5 h-5 text-teal-600" />
+        <img src="/Aloud_logo.png" className="w-7 h-7 object-contain" alt="Aloud" />
         <span className="font-black text-slate-900 text-lg tracking-tight">Aloud</span>
       </div>
 

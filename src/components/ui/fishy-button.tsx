@@ -96,12 +96,12 @@ export const FishyButton: React.FC<FishyButtonProps> = ({
 }
 .button__text {
   position:relative;z-index:7;display:inline-block;font-size:14px;letter-spacing:3px;
-  color:#fff;transition:all ease 1s;text-transform:uppercase;font-weight:600;
+  color:#fff;transition:all ease 1s;text-transform:uppercase;font-weight:600;white-space:nowrap;
   font-family:${fontFamily ? fontFamily : "'Inter',system-ui,sans-serif"};
 }
 .button:hover { background:var(--color_6);box-shadow:0 0 12px rgba(0,0,0,0),0 0 12px rgba(0,0,0,.4) inset; }
 .button:hover .wave { animation:shadow ease 1s;animation-fill-mode:forwards; }
-.button:hover .button__text { letter-spacing:4px;font-size:15px; }
+.button:hover .button__text { letter-spacing:3px;font-size:14px; }
 .button:hover .wave:nth-child(1)::before{top:-2px;left:-2px}.button:hover .wave:nth-child(1)::after{bottom:-2px;right:-2px}
 .button:hover .wave:nth-child(2)::before{top:-2px;left:-2px}.button:hover .wave:nth-child(2)::after{bottom:-2px;right:-2px}
 .button:hover .wave:nth-child(3)::before{top:-3px;left:-3px}.button:hover .wave:nth-child(3)::after{bottom:-3px;right:-3px}

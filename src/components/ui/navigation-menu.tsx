@@ -44,11 +44,6 @@ const containerVariants: Variants = {
   },
 };
 
-const logoVariants: Variants = {
-  expanded: { opacity: 1, x: 0, rotate: 0, transition: { type: "spring", damping: 15 } },
-  collapsed: { opacity: 0, x: -25, rotate: -180, transition: { duration: 0.3 } },
-};
-
 const brandVariants: Variants = {
   expanded: { opacity: 1, x: 0, transition: { type: "spring", damping: 15, delay: 0.05 } },
   collapsed: { opacity: 0, x: -20, transition: { duration: 0.2 } },
@@ -118,16 +113,9 @@ export function AnimatedNav() {
           !isExpanded && "cursor-pointer justify-center"
         )}
       >
-        <motion.div
-          variants={logoVariants}
-          className="flex-shrink-0 flex items-center pl-3 pr-1 cursor-pointer"
-          onClick={(e) => { e.stopPropagation(); navigate("/"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-        >
-          <img src="/Aloud_logo.png" className="h-7 w-7 object-contain" alt="Aloud" />
-        </motion.div>
         <motion.span
           variants={brandVariants}
-          className="flex-shrink-0 font-bold text-slate-900 pr-2 tracking-tight cursor-pointer"
+          className="flex-shrink-0 font-bold text-slate-900 pl-4 pr-2 tracking-tight cursor-pointer"
           onClick={(e) => { e.stopPropagation(); navigate("/"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
         >
           Aloud

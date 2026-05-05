@@ -33,6 +33,7 @@ export async function createOrGetRetellAgent(
   existingAgentId: string | null,
   existingLlmId: string | null,
   supabase: SupabaseClient,
+  voiceType: string = 'cloned',
 ): Promise<RetellAgentResult> {
   if (existingAgentId && existingLlmId) {
     return { agentId: existingAgentId, llmId: existingLlmId };
@@ -63,7 +64,7 @@ export async function createOrGetRetellAgent(
       llm_id: llm.llm_id,
     },
     voice_id: retellVoiceId,
-    voice_model: 'eleven_flash_v2_5',
+    ...(voiceType === 'cloned' ? { voice_model: 'eleven_flash_v2_5' } : {}),
     agent_name: `fluent-${userId.slice(0, 8)}`,
     webhook_url: webhookUrl,
     webhook_events: ['call_started', 'call_ended', 'call_analyzed'],

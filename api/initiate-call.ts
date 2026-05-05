@@ -50,7 +50,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const { data: clone, error: cloneError } = await supabase
     .from('voice_clones')
-    .select('id, retell_voice_id, name, retell_agent_id, retell_llm_id')
+    .select('id, retell_voice_id, name, retell_agent_id, retell_llm_id, voice_type')
     .eq('user_id', userId)
     .eq('status', 'active')
     .maybeSingle();
@@ -90,6 +90,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       clone.retell_agent_id,
       clone.retell_llm_id,
       supabase,
+      clone.voice_type ?? 'cloned',
     );
 
     const fromNumber = process.env.RETELL_FROM_NUMBER;

@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, type Variants } from 'framer-motion';
-import { Mic } from 'lucide-react';
 import { FishyButton } from '@/components/ui/fishy-button';
 
 const SonicWaveformCanvas = () => {
@@ -114,29 +113,21 @@ export const SonicWaveformHero = ({ onSubmit }: SonicHeroProps) => {
       <div className="absolute inset-0 bg-gradient-to-r from-white/40 via-transparent to-white/40 z-10 pointer-events-none" />
 
       <div className="relative z-20 text-center p-6 max-w-3xl mx-auto">
-        <motion.div
-          custom={0} variants={fadeUpVariants} initial="hidden" animate="visible"
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-50 border border-teal-200 mb-6"
-        >
-          <Mic className="h-4 w-4 text-teal-600" />
-          <span className="text-sm font-medium text-teal-700">Early Access Beta</span>
-        </motion.div>
-
         <motion.h1
-          custom={1} variants={fadeUpVariants} initial="hidden" animate="visible"
+          custom={0} variants={fadeUpVariants} initial="hidden" animate="visible"
           className="text-5xl md:text-7xl font-bold tracking-tighter mb-4 pb-6 bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-500"
         >
           Make any call.<br />Without speaking.
         </motion.h1>
 
         <motion.p
-          custom={2} variants={fadeUpVariants} initial="hidden" animate="visible"
+          custom={1} variants={fadeUpVariants} initial="hidden" animate="visible"
           className="max-w-xl mx-auto text-base md:text-lg text-slate-500 mb-10"
         >
           You type what to say. Your cloned voice makes the call. You follow the transcript live.
         </motion.p>
 
-        <motion.div custom={3} variants={fadeUpVariants} initial="hidden" animate="visible">
+        <motion.div custom={2} variants={fadeUpVariants} initial="hidden" animate="visible">
           {submitted ? (
             <div className="flex items-center justify-center gap-2 px-4 sm:px-8 py-4 bg-teal-50 border border-teal-300 rounded-xl text-teal-700 font-semibold text-sm sm:text-lg text-center">
               You're on the waitlist! We'll be in touch.

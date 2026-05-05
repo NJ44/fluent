@@ -2,12 +2,13 @@
 
 import * as React from "react";
 import { motion, useScroll, useMotionValueEvent, type Variants } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { Mic, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { name: "Features", href: "#features" },
-  { name: "How it Works", href: "#how-it-works" },
+  { name: "About", href: "/about" },
   { name: "Join Beta", href: "#hero" },
 ];
 
@@ -72,6 +73,7 @@ export function AnimatedNav() {
   const { scrollY } = useScroll();
   const lastScrollY = React.useRef(0);
   const scrollPositionOnCollapse = React.useRef(0);
+  const navigate = useNavigate();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = lastScrollY.current;
@@ -93,10 +95,12 @@ export function AnimatedNav() {
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.stopPropagation();
+    e.preventDefault();
     if (href.startsWith("#")) {
-      e.preventDefault();
       const target = document.querySelector(href);
       if (target) target.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate(href);
     }
   };
 

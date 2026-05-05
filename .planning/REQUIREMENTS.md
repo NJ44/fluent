@@ -27,8 +27,8 @@
 
 ### Call Intent
 
-- [ ] **INTENT-01**: User can type a call goal in plain English (e.g., "Book a table for 4 at 7pm at Mario's")
-- [ ] **INTENT-02**: User can enter the recipient's phone number
+- [x] **INTENT-01**: User can type a call goal in plain English (e.g., "Book a table for 4 at 7pm at Mario's")
+- [x] **INTENT-02**: User can enter the recipient's phone number
 - [x] **INTENT-03**: User can add 2–3 fallback rules (e.g., "If 7pm is full, try 8pm or a different day")
 - [x] **INTENT-04**: User cannot initiate a call without an active voice clone
 
@@ -135,8 +135,8 @@
 | VOICE-06 | Phase 1 | Complete |
 | VOICE-07 | Phase 1 | Complete |
 | VOICE-08 | Phase 1 | Complete |
-| INTENT-01 | Phase 2 | Pending |
-| INTENT-02 | Phase 2 | Pending |
+| INTENT-01 | Phase 2 | Complete |
+| INTENT-02 | Phase 2 | Complete |
 | INTENT-03 | Phase 2 | Complete |
 | INTENT-04 | Phase 2 | Complete |
 | CALL-01 | Phase 2 | Complete |

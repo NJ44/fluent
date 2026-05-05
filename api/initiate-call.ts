@@ -116,9 +116,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     });
 
+    // Store Twilio Conference friendly name for barge-in (graceful — skipped if not configured)
+    // The conference is created implicitly when a call leg joins via TwiML <Conference>
+    let twilioConferenceName: string | null = null;
+    if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
+      twilioConferenceName = `fluent-${fluentCallId}`;
+    }
+
     await supabase
       .from('calls')
-      .update({ status: 'ringing', retell_call_id: phoneCall.call_id, retell_agent_id: agentId })
+      .update({ status: 'ringing', retell_call_id: phoneCall.call_id, retell_agent_id: agentId, twilio_conference_sid: twilioConferenceName })
       .eq('id', fluentCallId);
 
     return res.status(200).json({ callId: fluentCallId, retellCallId: phoneCall.call_id, status: 'ringing' });

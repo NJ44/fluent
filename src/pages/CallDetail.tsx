@@ -71,6 +71,46 @@ export default function CallDetail() {
   const [call, setCall] = useState<Call | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isBarging, setIsBarging] = useState(false);
+  const [isEndingCall, setIsEndingCall] = useState(false);
+  const [bargeError, setBargeError] = useState('');
+
+  const handleBargeIn = async () => {
+    if (!callId) return;
+    setBargeError('');
+    setIsBarging(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error('Not authenticated');
+      const res = await fetch('/api/barge-in', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
+        body: JSON.stringify({ callId, action: 'barge_in' }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Barge-in failed');
+      // isBarging stays true — user is now live
+    } catch (err) {
+      setBargeError(err instanceof Error ? err.message : 'Barge-in failed');
+      setIsBarging(false);
+    }
+  };
+
+  const handleEndCall = async () => {
+    if (!callId) return;
+    setIsEndingCall(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error('Not authenticated');
+      await fetch('/api/barge-in', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
+        body: JSON.stringify({ callId, action: 'end_call' }),
+      });
+    } catch { /* ignore */ } finally {
+      setIsEndingCall(false);
+    }
+  };
 
   useEffect(() => {
     if (!callId) return;
@@ -265,6 +305,39 @@ export default function CallDetail() {
         {!call.transcript && isTerminal && !isFailed && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
             <p className="text-gray-400 text-sm">No transcript available for this call.</p>
+          </div>
+        )}
+
+        {/* Barge-in controls — shown during active calls */}
+        {call.status === 'active' && (
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-4">
+            <p className="text-xs text-gray-400 uppercase tracking-wide mb-3">Call controls</p>
+            <div className="flex gap-3">
+              <button
+                onClick={handleBargeIn}
+                disabled={isBarging}
+                className="flex-1 rounded-lg bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
+              >
+                {isBarging ? (
+                  <>
+                    <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                    You're live
+                  </>
+                ) : (
+                  '🎤 Barge In'
+                )}
+              </button>
+              <button
+                onClick={handleEndCall}
+                disabled={isEndingCall}
+                className="rounded-lg border border-red-200 px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-50 transition-colors"
+              >
+                {isEndingCall ? 'Ending...' : 'End Call'}
+              </button>
+            </div>
+            {bargeError && (
+              <p className="mt-2 text-xs text-red-600">{bargeError}</p>
+            )}
           </div>
         )}
 

@@ -62,8 +62,8 @@
 
 ### Call History
 
-- [ ] **HIST-01**: User can view a list of all past calls with intent, outcome summary, date, and status
-- [ ] **HIST-02**: User can open a past call to see the full transcript
+- [x] **HIST-01**: User can view a list of all past calls with intent, outcome summary, date, and status
+- [x] **HIST-02**: User can open a past call to see the full transcript
 - [ ] **HIST-03**: Call history is paginated or infinitely scrolled for large lists
 
 ### Billing & Plans
@@ -148,8 +148,8 @@
 | CALL-08 | Phase 2 | Complete |
 | POST-01 | Phase 2 | Complete |
 | POST-02 | Phase 2 | Complete |
-| HIST-01 | Phase 2 | Pending |
-| HIST-02 | Phase 2 | Pending |
+| HIST-01 | Phase 2 | Complete |
+| HIST-02 | Phase 2 | Complete |
 | LIVE-01 | Phase 3 | Pending |
 | LIVE-02 | Phase 3 | Pending |
 | LIVE-06 | Phase 3 | Pending |

@@ -120,13 +120,15 @@ export function AnimatedNav() {
       >
         <motion.div
           variants={logoVariants}
-          className="flex-shrink-0 flex items-center pl-4 pr-1"
+          className="flex-shrink-0 flex items-center pl-4 pr-1 cursor-pointer"
+          onClick={(e) => { e.stopPropagation(); navigate("/"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
         >
           <Mic className="h-5 w-5 text-teal-600" />
         </motion.div>
         <motion.span
           variants={brandVariants}
-          className="flex-shrink-0 font-bold text-slate-900 pr-3 tracking-tight"
+          className="flex-shrink-0 font-bold text-slate-900 pr-3 tracking-tight cursor-pointer"
+          onClick={(e) => { e.stopPropagation(); navigate("/"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
         >
           Fluent
         </motion.span>

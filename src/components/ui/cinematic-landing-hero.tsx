@@ -192,7 +192,7 @@ export function CinematicHero({
   cardHeading = "You type. We call. They hear you.",
   cardDescription = (
     <>
-      <span className="text-white font-semibold">Fluent</span> clones your voice in 30 seconds. When you need to call the dentist, landlord, or insurance — you type. Your voice speaks. You follow along live.
+      You type what to say. Your cloned voice makes the call. You follow the transcript live.
     </>
   ),
   metricValue = 99,
@@ -365,7 +365,7 @@ export function CinematicHero({
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="your@email.com"
-              className="px-5 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 shadow-sm focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-400/20 transition-all w-full sm:w-72"
+              className="px-5 py-3.5 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition-all w-full sm:w-72"
             />
             <FishyButton
               type="submit"

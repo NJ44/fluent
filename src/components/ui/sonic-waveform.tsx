@@ -118,16 +118,16 @@ export const SonicWaveformHero = ({ onSubmit }: SonicHeroProps) => {
 
         <motion.h1
           custom={1} variants={fadeUpVariants} initial="hidden" animate="visible"
-          className="text-5xl md:text-7xl font-bold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-500"
+          className="text-5xl md:text-7xl font-bold tracking-tighter mb-4 pb-2 bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-500"
         >
-          Your voice,<br />cloned perfectly.
+          Make any call.<br />Without speaking.
         </motion.h1>
 
         <motion.p
           custom={2} variants={fadeUpVariants} initial="hidden" animate="visible"
           className="max-w-xl mx-auto text-lg text-slate-500 mb-10"
         >
-          Fluent captures the unique patterns of your voice and lets you generate natural-sounding speech in seconds. Join the waitlist and be first in line.
+          You type what to say. Your cloned voice makes the call. You follow the transcript live.
         </motion.p>
 
         <motion.div custom={3} variants={fadeUpVariants} initial="hidden" animate="visible">

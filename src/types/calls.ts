@@ -19,6 +19,9 @@ export interface Call {
   intent: string;
   fallback_rules: string[];
   consent_attested: boolean;
+  call_type: string;
+  recipient_name: string | null;
+  recipient_context: string | null;
   status: CallStatus;
   transcript: string | null;
   outcome_summary: string | null;
@@ -35,6 +38,9 @@ export interface CallIntent {
   intent: string;         // Plain English call goal (min 10 chars)
   fallbackRules: string[]; // 0-3 fallback rules
   consentAttested: boolean; // User attests they have permission to call this number
+  callType: 'outbound' | 'inbound';
+  recipientName?: string;
+  recipientContext?: string;
 }
 
 // Disconnection reasons that indicate a call failure (vs. successful completion)

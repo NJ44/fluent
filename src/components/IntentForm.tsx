@@ -17,8 +17,11 @@ export function IntentForm({ onSubmit, isLoading = false }: IntentFormProps) {
   const [hasClone, setHasClone] = useState<boolean | null>(null); // null = checking
 
   // Form state
+  const [callType, setCallType] = useState<'outbound' | 'inbound'>('outbound');
   const [intent, setIntent] = useState('');
   const [toNumber, setToNumber] = useState('');
+  const [recipientName, setRecipientName] = useState('');
+  const [recipientContext, setRecipientContext] = useState('');
   const [numberError, setNumberError] = useState('');
   const [fallbackRules, setFallbackRules] = useState<string[]>(['']);
   const [consentAttested, setConsentAttested] = useState(false);
@@ -62,7 +65,7 @@ export function IntentForm({ onSubmit, isLoading = false }: IntentFormProps) {
   const isFormValid =
     hasClone === true &&
     intent.trim().length >= 10 &&
-    E164_REGEX.test(toNumber) &&
+    (callType === 'inbound' || E164_REGEX.test(toNumber)) &&
     consentAttested &&
     !isSubmitting &&
     !isLoading;
@@ -75,17 +78,20 @@ export function IntentForm({ onSubmit, isLoading = false }: IntentFormProps) {
     setSubmitError('');
 
     const payload: CallIntent = {
-      toNumber,
+      toNumber: callType === 'outbound' ? toNumber : '',
       intent: intent.trim(),
       fallbackRules: fallbackRules.filter(r => r.trim().length > 0),
       consentAttested: true,
+      callType,
+      recipientName: recipientName.trim() || undefined,
+      recipientContext: recipientContext.trim() || undefined,
     };
 
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error('Not authenticated');
 
-      const res = await fetch('/.netlify/functions/initiate-call', {
+      const res = await fetch('/api/initiate-call', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -109,6 +115,35 @@ export function IntentForm({ onSubmit, isLoading = false }: IntentFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-xl">
+      {/* Call type toggle */}
+      <div>
+        <div className="flex rounded-lg border border-gray-300 overflow-hidden mb-2">
+          <button
+            type="button"
+            onClick={() => setCallType('outbound')}
+            className={`flex-1 px-4 py-2 text-sm font-medium transition-colors ${
+              callType === 'outbound' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            Outbound call
+          </button>
+          <button
+            type="button"
+            onClick={() => setCallType('inbound')}
+            className={`flex-1 px-4 py-2 text-sm font-medium transition-colors ${
+              callType === 'inbound' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            Receive inbound
+          </button>
+        </div>
+        {callType === 'inbound' && (
+          <div className="rounded-lg bg-blue-50 border border-blue-200 p-3 text-blue-700 text-sm">
+            Your AI assistant will answer incoming calls to your Fluent number and speak in your voice.
+          </div>
+        )}
+      </div>
+
       {/* Clone status banner */}
       {hasClone === false && (
         <div className="rounded-lg bg-amber-50 border border-amber-200 p-4 text-amber-800 text-sm">
@@ -135,7 +170,42 @@ export function IntentForm({ onSubmit, isLoading = false }: IntentFormProps) {
         <p className="mt-1 text-xs text-gray-500">{intent.trim().length}/10 characters minimum</p>
       </div>
 
+      {/* Recipient name — only for outbound */}
+      {callType === 'outbound' && (
+        <div>
+          <label htmlFor="recipientName" className="block text-sm font-medium text-gray-700 mb-1">
+            Who are you calling? <span className="text-gray-400 font-normal">(optional)</span>
+          </label>
+          <input
+            id="recipientName"
+            type="text"
+            value={recipientName}
+            onChange={e => setRecipientName(e.target.value)}
+            placeholder="e.g. Mario's Restaurant, Dr. Smith's Office, IRS"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      )}
+
+      {/* Context / details — only for outbound */}
+      {callType === 'outbound' && (
+        <div>
+          <label htmlFor="recipientContext" className="block text-sm font-medium text-gray-700 mb-1">
+            What should the AI know? <span className="text-gray-400 font-normal">(account numbers, details, context)</span>
+          </label>
+          <textarea
+            id="recipientContext"
+            rows={3}
+            value={recipientContext}
+            onChange={e => setRecipientContext(e.target.value)}
+            placeholder="e.g. My account number is 12345. I want to dispute the charge from April 15th. If they need my birthday it's Jan 15 1990."
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          />
+        </div>
+      )}
+
       {/* Recipient phone — INTENT-02 */}
+      {callType === 'outbound' && (
       <div>
         <label htmlFor="toNumber" className="block text-sm font-medium text-gray-700 mb-1">
           Recipient phone number
@@ -158,6 +228,7 @@ export function IntentForm({ onSubmit, isLoading = false }: IntentFormProps) {
         )}
         <p className="mt-1 text-xs text-gray-500">Use E.164 format: +1 (country code) + number</p>
       </div>
+      )}
 
       {/* Fallback rules — INTENT-03: up to 3 */}
       <div>
@@ -209,7 +280,9 @@ export function IntentForm({ onSubmit, isLoading = false }: IntentFormProps) {
           required
         />
         <label htmlFor="consent" className="text-sm text-gray-600">
-          I confirm I have permission to contact this number. The call will open with an AI disclosure statement.
+          {callType === 'inbound'
+            ? 'I understand my AI will answer and speak on my behalf.'
+            : 'I confirm I have permission to contact this number. The call will open with an AI disclosure statement.'}
         </label>
       </div>
 

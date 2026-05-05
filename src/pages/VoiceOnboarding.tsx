@@ -5,6 +5,8 @@ import RecordingStep from '../components/voice/RecordingStep';
 import ConsentStep from '../components/voice/ConsentStep';
 import CloneStep from '../components/voice/CloneStep';
 import PlaybackStep from '../components/voice/PlaybackStep';
+import VoiceTypeStep from '../components/voice/VoiceTypeStep';
+import AIVoiceStep from '../components/voice/AIVoiceStep';
 
 type OnboardingStep = 'record' | 'consent' | 'clone' | 'playback' | 'done';
 
@@ -42,6 +44,8 @@ export default function VoiceOnboarding({
 }: VoiceOnboardingProps = {}) {
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  const [voiceTypeChosen, setVoiceTypeChosen] = useState<'own' | 'ai' | null>(null);
 
   const consentText = useMemo(() => {
     const name = user?.name || 'User';
@@ -95,6 +99,36 @@ export default function VoiceOnboarding({
     navigate('/dashboard');
   }
 
+  function handleAIComplete() {
+    if (isReclone && onRecloneComplete) {
+      onRecloneComplete();
+    } else {
+      navigate('/dashboard');
+    }
+  }
+
+  // Step 0: voice type selection
+  if (voiceTypeChosen === null) {
+    return (
+      <VoiceTypeStep
+        onSelectOwn={() => setVoiceTypeChosen('own')}
+        onSelectAI={() => setVoiceTypeChosen('ai')}
+      />
+    );
+  }
+
+  // AI voice picker flow
+  if (voiceTypeChosen === 'ai') {
+    return (
+      <AIVoiceStep
+        onComplete={handleAIComplete}
+        onBack={() => setVoiceTypeChosen(null)}
+        isReclone={isReclone}
+      />
+    );
+  }
+
+  // Own voice cloning flow (voiceTypeChosen === 'own')
   const userName = user?.name || '';
   const currentIndex = stepIndex(state.step);
 

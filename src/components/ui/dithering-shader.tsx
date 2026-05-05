@@ -259,7 +259,7 @@ export function DitheringShader({
   style = {},
 }: DitheringShaderProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animRef = useRef<number>();
+  const animRef = useRef<number | undefined>(undefined);
   const programRef = useRef<WebGLProgram | null>(null);
   const glRef = useRef<WebGL2RenderingContext | null>(null);
   const locsRef = useRef<Record<string, WebGLUniformLocation | null>>({});

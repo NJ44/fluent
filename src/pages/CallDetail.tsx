@@ -15,16 +15,6 @@ const STATUS_LABELS: Record<CallStatusType, string> = {
   failed: 'Call failed',
 };
 
-const STATUS_COLORS: Record<CallStatusType, string> = {
-  draft: 'text-gray-500',
-  initiating: 'text-blue-500',
-  ringing: 'text-blue-600',
-  active: 'text-green-600',
-  ended: 'text-gray-700',
-  analyzed: 'text-green-700',
-  failed: 'text-red-600',
-};
-
 const TERMINAL_STATUSES: CallStatusType[] = ['ended', 'analyzed', 'failed'];
 
 function formatDuration(ms: number | null): string {

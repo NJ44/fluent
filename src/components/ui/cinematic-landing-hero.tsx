@@ -180,6 +180,7 @@ export interface CinematicHeroProps extends React.HTMLAttributes<HTMLDivElement>
   metricLabel?: string;
   ctaHeading?: string;
   ctaDescription?: string;
+  onEmailSubmit?: (email: string) => void;
 }
 
 export function CinematicHero({
@@ -196,9 +197,12 @@ export function CinematicHero({
   metricLabel = "% Accuracy",
   ctaHeading = "Join the beta.",
   ctaDescription = "Fluent's private beta is opening soon. Be among the first to clone your voice and experience sub-second generation.",
+  onEmailSubmit,
   className,
   ...props
 }: CinematicHeroProps) {
+  const [email, setEmail] = React.useState('');
+  const [submitted, setSubmitted] = React.useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const mainCardRef = useRef<HTMLDivElement>(null);
   const mockupRef = useRef<HTMLDivElement>(null);
@@ -320,26 +324,36 @@ export function CinematicHero({
         <p className="text-slate-500 text-lg md:text-xl mb-12 max-w-xl mx-auto font-light leading-relaxed">
           {ctaDescription}
         </p>
-        <div className="flex flex-col sm:flex-row gap-6">
-          <a href="#hero" className="btn-modern-light flex items-center justify-center gap-3 px-8 py-4 rounded-[1.25rem] focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-            </svg>
-            <div className="text-left">
-              <div className="text-[10px] font-bold tracking-wider opacity-60 uppercase mb-[-2px]">Early access</div>
-              <div className="text-xl font-bold leading-none tracking-tight">Join Beta</div>
-            </div>
-          </a>
-          <a href="#features" className="btn-modern-dark flex items-center justify-center gap-3 px-8 py-4 rounded-[1.25rem] focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <div className="text-left">
-              <div className="text-[10px] font-bold tracking-wider text-neutral-400 uppercase mb-[-2px]">Explore</div>
-              <div className="text-xl font-bold leading-none tracking-tight">Learn More</div>
-            </div>
-          </a>
-        </div>
+        {submitted ? (
+          <div className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-teal-50 border border-teal-200 text-teal-700 font-semibold text-lg">
+            You're on the list — we'll be in touch soon.
+          </div>
+        ) : (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!email) return;
+              onEmailSubmit?.(email);
+              setSubmitted(true);
+            }}
+            className="flex flex-col sm:flex-row gap-3 justify-center"
+          >
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="your@email.com"
+              className="px-5 py-3.5 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition-all w-full sm:w-72"
+            />
+            <button
+              type="submit"
+              className="px-8 py-3.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-semibold transition-colors duration-200 whitespace-nowrap"
+            >
+              Join Beta
+            </button>
+          </form>
+        )}
       </div>
 
       {/* Foreground: deep blue card */}
@@ -445,30 +459,6 @@ export function CinematicHero({
                   </div>
                 </div>
 
-                {/* Floating badges */}
-                <div className="ch-floating-badge absolute flex top-6 lg:top-12 left-[-15px] lg:left-[-80px] floating-ui-badge rounded-xl lg:rounded-2xl p-3 lg:p-4 items-center gap-3 lg:gap-4 z-30">
-                  <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-gradient-to-b from-teal-500/20 to-teal-900/10 flex items-center justify-center border border-teal-400/30">
-                    <svg className="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-white text-xs lg:text-sm font-bold tracking-tight">99.2% Match</p>
-                    <p className="text-teal-400/50 text-[10px] lg:text-xs font-medium">Voice accuracy</p>
-                  </div>
-                </div>
-
-                <div className="ch-floating-badge absolute flex bottom-12 lg:bottom-20 right-[-15px] lg:right-[-80px] floating-ui-badge rounded-xl lg:rounded-2xl p-3 lg:p-4 items-center gap-3 lg:gap-4 z-30">
-                  <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-gradient-to-b from-cyan-500/20 to-cyan-900/10 flex items-center justify-center border border-cyan-400/30">
-                    <svg className="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-white text-xs lg:text-sm font-bold tracking-tight">~0.8s</p>
-                    <p className="text-cyan-400/50 text-[10px] lg:text-xs font-medium">Generation time</p>
-                  </div>
-                </div>
               </div>
             </div>
 

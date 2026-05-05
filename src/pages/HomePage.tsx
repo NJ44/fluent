@@ -1,42 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import { SonicWaveformHero } from '@/components/ui/sonic-waveform';
 import { CinematicHero } from '@/components/ui/cinematic-landing-hero';
 import { AnimatedNav } from '@/components/ui/navigation-menu';
 import { FluentFooter } from '@/components/ui/fluent-footer';
 import { FaqSection } from '@/components/ui/faq-section';
-import { ProjectCard } from '@/components/ui/project-card';
 import FeaturesSection from '@/components/ui/features-section';
 import { ArrowRight } from 'lucide-react';
-
-const FEATURES = [
-  {
-    imgSrc: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=600&auto=format&fit=crop",
-    title: "30-Second Sample",
-    description: "Record just 30 seconds of your voice. Fluent's AI does the rest — no studio, no script.",
-    link: "#hero",
-    linkText: "Get Early Access",
-  },
-  {
-    imgSrc: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=600&auto=format&fit=crop",
-    title: "HD Voice Output",
-    description: "Generate speech that sounds indistinguishable from you. Every breath, every nuance, captured.",
-    link: "#hero",
-    linkText: "Hear the Difference",
-  },
-  {
-    imgSrc: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&auto=format&fit=crop",
-    title: "Instant Generation",
-    description: "Sub-second generation times mean your voice is ready the moment you need it.",
-    link: "#hero",
-    linkText: "See It in Action",
-  },
-  {
-    imgSrc: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&auto=format&fit=crop",
-    title: "Private & Secure",
-    description: "Your voice model is yours alone. End-to-end encrypted, never shared, fully deletable.",
-    link: "#hero",
-    linkText: "Learn More",
-  },
-];
 
 const STEPS = [
   { n: "01", title: "Record", desc: "Open Fluent and read a short passage. 30 seconds is all we need." },
@@ -45,6 +14,7 @@ const STEPS = [
 ];
 
 export default function HomePage() {
+  const navigate = useNavigate();
   return (
     <div className="bg-white text-slate-900 overflow-x-hidden">
       <AnimatedNav />
@@ -59,34 +29,7 @@ export default function HomePage() {
         <FeaturesSection />
 
         {/* Cinematic scroll section */}
-        <CinematicHero />
-
-        {/* Photo feature grid */}
-        <section id="features" className="py-28 px-6 bg-slate-50 relative">
-          <div className="relative max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <span className="text-xs tracking-widest uppercase text-teal-600 font-semibold">Why Fluent</span>
-              <h3 className="mt-4 text-4xl md:text-5xl font-bold tracking-tight text-slate-900">
-                Built differently,{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">
-                  sounds perfect.
-                </span>
-              </h3>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {FEATURES.map((f) => (
-                <ProjectCard
-                  key={f.title}
-                  imgSrc={f.imgSrc}
-                  title={f.title}
-                  description={f.description}
-                  link={f.link}
-                  linkText={f.linkText}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
+        <CinematicHero onEmailSubmit={(email) => { console.log('Beta signup:', email); navigate('/thank-you'); }} />
 
         {/* How it works */}
         <section id="how-it-works" className="py-28 px-6 bg-white relative overflow-hidden">

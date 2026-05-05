@@ -2,6 +2,7 @@ import { SonicWaveformHero } from '@/components/ui/sonic-waveform';
 import { CinematicHero } from '@/components/ui/cinematic-landing-hero';
 import { AnimatedNav } from '@/components/ui/navigation-menu';
 import { FluentFooter } from '@/components/ui/fluent-footer';
+import { FaqSection } from '@/components/ui/faq-section';
 import { ProjectCard } from '@/components/ui/project-card';
 import { ArrowRight } from 'lucide-react';
 
@@ -104,6 +105,8 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        <FaqSection />
       </main>
 
       <FluentFooter />

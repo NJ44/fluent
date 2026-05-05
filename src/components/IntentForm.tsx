@@ -28,6 +28,11 @@ export function IntentForm({ onSubmit, isLoading = false }: IntentFormProps) {
   const [submitError, setSubmitError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Analysis state
+  const [analysisState, setAnalysisState] = useState<'idle' | 'analyzing' | 'questions' | 'confirmed'>('idle');
+  const [clarificationQuestions, setClarificationQuestions] = useState<string[]>([]);
+  const [clarificationAnswers, setClarificationAnswers] = useState<string[]>([]);
+
   // Check for active clone on mount (INTENT-04)
   useEffect(() => {
     if (!user?.id) return;
@@ -39,6 +44,13 @@ export function IntentForm({ onSubmit, isLoading = false }: IntentFormProps) {
       .maybeSingle()
       .then(({ data }) => setHasClone(!!data));
   }, [user?.id]);
+
+  // Reset analysis state when callType changes
+  useEffect(() => {
+    setAnalysisState('idle');
+    setClarificationQuestions([]);
+    setClarificationAnswers([]);
+  }, [callType]);
 
   // E.164 validation on blur
   const handleNumberBlur = () => {
@@ -70,10 +82,7 @@ export function IntentForm({ onSubmit, isLoading = false }: IntentFormProps) {
     !isSubmitting &&
     !isLoading;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!isFormValid) return;
-
+  const handleActualCall = async (overrideContext?: string) => {
     setIsSubmitting(true);
     setSubmitError('');
 
@@ -84,7 +93,7 @@ export function IntentForm({ onSubmit, isLoading = false }: IntentFormProps) {
       consentAttested: true,
       callType,
       recipientName: recipientName.trim() || undefined,
-      recipientContext: recipientContext.trim() || undefined,
+      recipientContext: (overrideContext ?? recipientContext.trim()) || undefined,
     };
 
     try {
@@ -112,6 +121,78 @@ export function IntentForm({ onSubmit, isLoading = false }: IntentFormProps) {
       setIsSubmitting(false);
     }
   };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isFormValid) return;
+
+    // Stage 2: user has answered clarification questions — place the call
+    if (analysisState === 'questions') {
+      const enrichedContext = [
+        recipientContext,
+        ...clarificationQuestions
+          .map((q, i) => `${q}: ${clarificationAnswers[i]}`)
+          .filter((_, i) => clarificationAnswers[i].trim()),
+      ].filter(Boolean).join('\n');
+      await handleActualCall(enrichedContext);
+      return;
+    }
+
+    // Stage 1: analysisState === 'idle' — run pre-call analysis
+    setAnalysisState('analyzing');
+    setSubmitError('');
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error('Not authenticated');
+
+      const res = await fetch('/api/analyze-intent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({
+          intent,
+          recipientName,
+          recipientContext,
+          callType,
+          fallbackRules: fallbackRules.filter(r => r.trim().length > 0),
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || `Analysis failed (${res.status})`);
+
+      if (data.sufficient === true || !data.questions?.length) {
+        setAnalysisState('confirmed');
+        await handleActualCall();
+      } else {
+        setClarificationQuestions(data.questions);
+        setClarificationAnswers(new Array(data.questions.length).fill(''));
+        setAnalysisState('questions');
+      }
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : 'Analysis failed. Please try again.');
+      setAnalysisState('idle');
+    }
+  };
+
+  const submitButtonLabel = isSubmitting
+    ? 'Placing call...'
+    : analysisState === 'analyzing'
+      ? 'Analyzing...'
+      : analysisState === 'questions'
+        ? 'Send call'
+        : 'Continue →';
+
+  const submitButtonDisabled =
+    analysisState === 'analyzing'
+      ? true
+      : analysisState === 'questions'
+        ? !isFormValid || !clarificationAnswers.every(a => a.trim().length > 0)
+        : !isFormValid;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-xl">
@@ -286,6 +367,29 @@ export function IntentForm({ onSubmit, isLoading = false }: IntentFormProps) {
         </label>
       </div>
 
+      {/* Clarification questions — shown when analysis needs more info */}
+      {analysisState === 'questions' && (
+        <div className="rounded-xl bg-amber-50 border border-amber-200 p-4 space-y-3">
+          <p className="text-sm font-medium text-amber-800">A couple of quick questions to help the AI:</p>
+          {clarificationQuestions.map((q, i) => (
+            <div key={i}>
+              <p className="text-sm text-amber-700 mb-1">{q}</p>
+              <input
+                type="text"
+                value={clarificationAnswers[i]}
+                onChange={e => {
+                  const updated = [...clarificationAnswers];
+                  updated[i] = e.target.value;
+                  setClarificationAnswers(updated);
+                }}
+                className="w-full rounded-lg border border-amber-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
+                placeholder="Your answer..."
+              />
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Submit error */}
       {submitError && (
         <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-red-700 text-sm">
@@ -296,10 +400,10 @@ export function IntentForm({ onSubmit, isLoading = false }: IntentFormProps) {
       {/* Submit button — INTENT-04: disabled when no clone */}
       <button
         type="submit"
-        disabled={!isFormValid}
+        disabled={submitButtonDisabled}
         className="w-full rounded-lg bg-blue-600 px-4 py-3 text-white font-medium text-sm hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
-        {isSubmitting ? 'Placing call...' : 'Send call'}
+        {submitButtonLabel}
       </button>
     </form>
   );

@@ -1,16 +1,25 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthProvider';
 import ProtectedRoute from './components/ProtectedRoute';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import VoiceOnboarding from './pages/VoiceOnboarding';
 import Settings from './pages/Settings';
+import HomePage from './pages/HomePage';
+import { useLenis } from './hooks/useLenis';
+
+function ScrollManager() {
+  useLenis();
+  return null;
+}
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollManager />
       <AuthProvider>
         <Routes>
+          <Route path="/" element={<HomePage />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/dashboard" element={
@@ -28,7 +37,6 @@ function App() {
               <Settings />
             </ProtectedRoute>
           } />
-          <Route path="/" element={<Navigate to="/sign-in" replace />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

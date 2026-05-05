@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mic } from 'lucide-react';
+import { FishyButton } from '@/components/ui/fishy-button';
 
 const SonicWaveformCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -143,12 +144,15 @@ export const SonicWaveformHero = ({ onSubmit }: SonicHeroProps) => {
                 placeholder="Enter your email"
                 className="px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 backdrop-blur-sm focus:outline-none focus:border-teal-500/50 focus:bg-white/10 transition-all w-full sm:w-72"
               />
-              <button
+              <FishyButton
                 type="submit"
-                className="px-8 py-3.5 bg-teal-500 hover:bg-teal-400 text-black font-semibold rounded-xl transition-colors duration-200 whitespace-nowrap"
+                className="button--2"
+                width="150px"
+                height="50px"
+                borderRadius="14px"
               >
                 Join Beta
-              </button>
+              </FishyButton>
             </form>
           )}
         </motion.div>

@@ -118,7 +118,7 @@ export const SonicWaveformHero = ({ onSubmit }: SonicHeroProps) => {
 
         <motion.h1
           custom={1} variants={fadeUpVariants} initial="hidden" animate="visible"
-          className="text-5xl md:text-7xl font-bold tracking-tighter mb-4 pb-2 bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-500"
+          className="text-5xl md:text-7xl font-bold tracking-tighter mb-4 pb-4 bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-500"
         >
           Make any call.<br />Without speaking.
         </motion.h1>

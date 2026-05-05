@@ -41,6 +41,7 @@ const INJECTED_STYLES = `
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      padding-bottom: 0.5rem;
       transform: translateZ(0);
       filter:
           drop-shadow(0px 8px 16px rgba(15,23,42,0.10))
@@ -52,6 +53,7 @@ const INJECTED_STYLES = `
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      padding-bottom: 0.5rem;
       transform: translateZ(0);
       filter:
           drop-shadow(0px 12px 24px rgba(0,0,0,0.8))

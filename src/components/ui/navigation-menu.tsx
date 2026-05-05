@@ -110,7 +110,7 @@ export function AnimatedNav() {
         whileTap={!isExpanded ? { scale: 0.95 } : {}}
         onClick={handleNavClick}
         className={cn(
-          "flex items-center overflow-hidden rounded-full border border-white/10 bg-black/70 shadow-lg shadow-black/50 backdrop-blur-md h-12",
+          "flex items-center overflow-hidden rounded-full border border-slate-200 bg-white/90 shadow-sm shadow-slate-200 backdrop-blur-md h-12",
           !isExpanded && "cursor-pointer justify-center"
         )}
       >
@@ -118,19 +118,16 @@ export function AnimatedNav() {
           variants={logoVariants}
           className="flex-shrink-0 flex items-center pl-4 pr-1"
         >
-          <Mic className="h-5 w-5 text-teal-400" />
+          <Mic className="h-5 w-5 text-teal-600" />
         </motion.div>
         <motion.span
           variants={brandVariants}
-          className="flex-shrink-0 font-bold text-white pr-3 tracking-tight"
+          className="flex-shrink-0 font-bold text-slate-900 pr-3 tracking-tight"
         >
           Fluent
         </motion.span>
 
-        <motion.div
-          variants={itemVariants}
-          className="w-px h-4 bg-white/10 mr-1"
-        />
+        <motion.div variants={itemVariants} className="w-px h-4 bg-slate-200 mr-1" />
 
         <motion.div
           className={cn(
@@ -145,8 +142,8 @@ export function AnimatedNav() {
               variants={itemVariants}
               onClick={(e) => handleLinkClick(e, item.href)}
               className={cn(
-                "text-sm font-medium text-gray-400 hover:text-white transition-colors px-2 py-1 rounded-full hover:bg-white/5 whitespace-nowrap",
-                item.name === "Join Beta" && "text-teal-400 hover:text-teal-300"
+                "text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors px-2 py-1 rounded-full hover:bg-slate-100 whitespace-nowrap",
+                item.name === "Join Beta" && "text-teal-600 hover:text-teal-700"
               )}
             >
               {item.name}
@@ -156,7 +153,7 @@ export function AnimatedNav() {
 
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <motion.div variants={collapsedIconVariants} animate={isExpanded ? "expanded" : "collapsed"}>
-            <Menu className="h-5 w-5 text-white" />
+            <Menu className="h-5 w-5 text-slate-700" />
           </motion.div>
         </div>
       </motion.nav>

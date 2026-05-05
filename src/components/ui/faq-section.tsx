@@ -38,15 +38,15 @@ export function FaqSection() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="py-28 px-6 bg-black relative overflow-hidden">
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-teal-500/[0.03] blur-3xl pointer-events-none" />
+    <section className="py-28 px-6 bg-slate-50 relative overflow-hidden">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-teal-100/40 blur-3xl pointer-events-none" />
 
       <div className="relative max-w-3xl mx-auto">
         <div className="text-center mb-16">
-          <span className="text-xs tracking-widest uppercase text-teal-400 font-semibold">FAQ</span>
-          <h3 className="mt-4 text-4xl md:text-5xl font-bold tracking-tight">
+          <span className="text-xs tracking-widest uppercase text-teal-600 font-semibold">FAQ</span>
+          <h3 className="mt-4 text-4xl md:text-5xl font-bold tracking-tight text-slate-900">
             Questions &{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">
               answers.
             </span>
           </h3>
@@ -58,18 +58,18 @@ export function FaqSection() {
             return (
               <div
                 key={i}
-                className="rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden transition-colors duration-300 hover:border-teal-500/20"
+                className="rounded-2xl border border-slate-200 bg-white overflow-hidden transition-all duration-300 hover:border-teal-300 shadow-sm"
               >
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
                   className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none group"
                   aria-expanded={isOpen}
                 >
-                  <span className="text-white font-medium text-base group-hover:text-teal-300 transition-colors duration-200">
+                  <span className="text-slate-800 font-medium text-base group-hover:text-teal-700 transition-colors duration-200">
                     {item.q}
                   </span>
                   <Plus
-                    className="flex-shrink-0 w-4 h-4 text-teal-400 transition-transform duration-300"
+                    className="flex-shrink-0 w-4 h-4 text-teal-600 transition-transform duration-300"
                     style={{ transform: isOpen ? "rotate(45deg)" : "rotate(0deg)" }}
                   />
                 </button>
@@ -81,7 +81,7 @@ export function FaqSection() {
                     overflow: "hidden",
                   }}
                 >
-                  <p className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">
+                  <p className="px-6 pb-5 text-slate-500 text-sm leading-relaxed">
                     {item.a}
                   </p>
                 </div>

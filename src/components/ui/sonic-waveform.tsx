@@ -25,8 +25,7 @@ const SonicWaveformCanvas = () => {
     };
 
     const draw = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const lineCount = 60;
       const segmentCount = 80;
@@ -36,7 +35,7 @@ const SonicWaveformCanvas = () => {
         ctx.beginPath();
         const progress = i / lineCount;
         const colorIntensity = Math.sin(progress * Math.PI);
-        ctx.strokeStyle = `rgba(0, 255, 192, ${colorIntensity * 0.5})`;
+        ctx.strokeStyle = `rgba(13, 148, 136, ${colorIntensity * 0.25})`;
         ctx.lineWidth = 1.5;
 
         for (let j = 0; j < segmentCount + 1; j++) {
@@ -74,7 +73,7 @@ const SonicWaveformCanvas = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 z-0 w-full h-full bg-black" />;
+  return <canvas ref={canvasRef} className="absolute inset-0 z-0 w-full h-full bg-white" />;
 };
 
 interface SonicHeroProps {
@@ -104,34 +103,36 @@ export const SonicWaveformHero = ({ onSubmit }: SonicHeroProps) => {
   return (
     <div className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden">
       <SonicWaveformCanvas />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent z-10" />
+      {/* Fade edges to white */}
+      <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/60 z-10 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-white/40 via-transparent to-white/40 z-10 pointer-events-none" />
 
       <div className="relative z-20 text-center p-6 max-w-3xl mx-auto">
         <motion.div
           custom={0} variants={fadeUpVariants} initial="hidden" animate="visible"
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/20 mb-6 backdrop-blur-sm"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-50 border border-teal-200 mb-6"
         >
-          <Mic className="h-4 w-4 text-teal-300" />
-          <span className="text-sm font-medium text-gray-200">Early Access Beta</span>
+          <Mic className="h-4 w-4 text-teal-600" />
+          <span className="text-sm font-medium text-teal-700">Early Access Beta</span>
         </motion.div>
 
         <motion.h1
           custom={1} variants={fadeUpVariants} initial="hidden" animate="visible"
-          className="text-5xl md:text-7xl font-bold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400"
+          className="text-5xl md:text-7xl font-bold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-500"
         >
           Your voice,<br />cloned perfectly.
         </motion.h1>
 
         <motion.p
           custom={2} variants={fadeUpVariants} initial="hidden" animate="visible"
-          className="max-w-xl mx-auto text-lg text-gray-400 mb-10"
+          className="max-w-xl mx-auto text-lg text-slate-500 mb-10"
         >
           Fluent captures the unique patterns of your voice and lets you generate natural-sounding speech in seconds. Join the waitlist and be first in line.
         </motion.p>
 
         <motion.div custom={3} variants={fadeUpVariants} initial="hidden" animate="visible">
           {submitted ? (
-            <div className="inline-flex items-center gap-2 px-8 py-4 bg-teal-500/20 border border-teal-500/40 rounded-xl text-teal-300 font-semibold text-lg">
+            <div className="inline-flex items-center gap-2 px-8 py-4 bg-teal-50 border border-teal-300 rounded-xl text-teal-700 font-semibold text-lg">
               You're on the list! We'll be in touch.
             </div>
           ) : (
@@ -142,7 +143,7 @@ export const SonicWaveformHero = ({ onSubmit }: SonicHeroProps) => {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 backdrop-blur-sm focus:outline-none focus:border-teal-500/50 focus:bg-white/10 transition-all w-full sm:w-72"
+                className="px-5 py-3.5 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition-all w-full sm:w-72"
               />
               <FishyButton
                 type="submit"
@@ -157,17 +158,6 @@ export const SonicWaveformHero = ({ onSubmit }: SonicHeroProps) => {
           )}
         </motion.div>
       </div>
-
-      {/* Scroll hint */}
-      <motion.div
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.5 }}
-        className="absolute bottom-8 z-20 flex flex-col items-center gap-2 text-gray-600"
-      >
-        <span className="text-xs tracking-widest uppercase">Scroll</span>
-        <div className="w-px h-8 bg-gradient-to-b from-gray-600 to-transparent" />
-      </motion.div>
     </div>
   );
 };
-
-export default SonicWaveformHero;

@@ -1,0 +1,18 @@
+[    5349ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=bf33b4fc:20102
+[    5365ms] Error: supabaseUrl is required.
+    at validateSupabaseUrl (http://localhost:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=bf33b4fc:20171:26)
+    at new SupabaseClient (http://localhost:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=bf33b4fc:20376:21)
+    at createClient (http://localhost:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=bf33b4fc:20587:10)
+    at http://localhost:5173/src/lib/supabase.ts:4:25
+[  154179ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=bf33b4fc:20102
+[  154193ms] Error: supabaseUrl is required.
+    at validateSupabaseUrl (http://localhost:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=bf33b4fc:20171:26)
+    at new SupabaseClient (http://localhost:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=bf33b4fc:20376:21)
+    at createClient (http://localhost:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=bf33b4fc:20587:10)
+    at http://localhost:5173/src/lib/supabase.ts:4:25
+[  154856ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=bf33b4fc:20102
+[  154856ms] Error: supabaseUrl is required.
+    at validateSupabaseUrl (http://localhost:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=bf33b4fc:20171:26)
+    at new SupabaseClient (http://localhost:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=bf33b4fc:20376:21)
+    at createClient (http://localhost:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=bf33b4fc:20587:10)
+    at http://localhost:5173/src/lib/supabase.ts:4:25

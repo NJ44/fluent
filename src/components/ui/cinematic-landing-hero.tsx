@@ -21,28 +21,28 @@ const INJECTED_STYLES = `
   .bg-grid-theme {
       background-size: 60px 60px;
       background-image:
-          linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+          linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
       mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
       -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
   }
 
   .text-3d-matte {
-      color: #ffffff;
+      color: #0f172a;
       text-shadow:
-          0 10px 30px rgba(255,255,255,0.2),
-          0 2px 4px rgba(255,255,255,0.1);
+          0 10px 30px rgba(15,23,42,0.12),
+          0 2px 4px rgba(15,23,42,0.06);
   }
 
   .text-silver-matte {
-      background: linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.4) 100%);
+      background: linear-gradient(180deg, #0f172a 0%, rgba(15,23,42,0.45) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       transform: translateZ(0);
       filter:
-          drop-shadow(0px 10px 20px rgba(255,255,255,0.15))
-          drop-shadow(0px 2px 4px rgba(255,255,255,0.1));
+          drop-shadow(0px 8px 16px rgba(15,23,42,0.10))
+          drop-shadow(0px 2px 4px rgba(15,23,42,0.06));
   }
 
   .text-card-silver-matte {
@@ -294,7 +294,7 @@ export function CinematicHero({
   return (
     <div
       ref={containerRef}
-      className={cn("relative w-screen h-screen overflow-hidden flex items-center justify-center bg-black text-white font-sans antialiased", className)}
+      className={cn("relative w-screen h-screen overflow-hidden flex items-center justify-center bg-white text-slate-900 font-sans antialiased", className)}
       style={{ perspective: "1500px" }}
       {...props}
     >
@@ -317,7 +317,7 @@ export function CinematicHero({
         <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-silver-matte">
           {ctaHeading}
         </h2>
-        <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-xl mx-auto font-light leading-relaxed">
+        <p className="text-slate-500 text-lg md:text-xl mb-12 max-w-xl mx-auto font-light leading-relaxed">
           {ctaDescription}
         </p>
         <div className="flex flex-col sm:flex-row gap-6">

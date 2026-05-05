@@ -41,7 +41,7 @@ const INJECTED_STYLES = `
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      padding-bottom: 0.5rem;
+      padding-bottom: 1.5rem;
       transform: translateZ(0);
       filter:
           drop-shadow(0px 8px 16px rgba(15,23,42,0.10))
@@ -53,7 +53,7 @@ const INJECTED_STYLES = `
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      padding-bottom: 0.5rem;
+      padding-bottom: 2rem;
       transform: translateZ(0);
       filter:
           drop-shadow(0px 12px 24px rgba(0,0,0,0.8))
@@ -184,7 +184,7 @@ export interface CinematicHeroProps extends React.HTMLAttributes<HTMLDivElement>
   metricLabel?: string;
   ctaHeading?: string;
   ctaDescription?: string;
-  onEmailSubmit?: (email: string) => void;
+  onEmailSubmit?: (email: string) => Promise<void> | void;
 }
 
 export function CinematicHero({
@@ -207,6 +207,7 @@ export function CinematicHero({
 }: CinematicHeroProps) {
   const [email, setEmail] = React.useState('');
   const [submitted, setSubmitted] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const mainCardRef = useRef<HTMLDivElement>(null);
   const mockupRef = useRef<HTMLDivElement>(null);
@@ -353,11 +354,16 @@ export function CinematicHero({
           </div>
         ) : (
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
               if (!email) return;
-              onEmailSubmit?.(email);
-              setSubmitted(true);
+              setLoading(true);
+              try {
+                await onEmailSubmit?.(email);
+              } finally {
+                setLoading(false);
+                setSubmitted(true);
+              }
             }}
             className="flex flex-col sm:flex-row gap-3 justify-center w-full max-w-md mx-auto sm:max-w-none sm:w-auto"
           >
@@ -367,19 +373,26 @@ export function CinematicHero({
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="your@email.com"
-              className="px-5 py-3.5 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition-all w-full sm:w-72"
+              disabled={loading}
+              className="px-5 py-3.5 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition-all w-full sm:w-72 disabled:opacity-60"
             />
-            <div className="w-full sm:w-auto flex justify-center [&_.button]:!w-full [&_.button]:!mx-0 sm:[&_.button]:!w-[150px]">
-              <FishyButton
-                type="submit"
-                className="button--2"
-                width="150px"
-                height="50px"
-                borderRadius="14px"
-              >
-                Join Beta
-              </FishyButton>
-            </div>
+            {loading ? (
+              <div className="w-full sm:w-[150px] h-[50px] flex items-center justify-center">
+                <div className="w-5 h-5 border-2 border-teal-400 border-t-transparent rounded-full animate-spin" />
+              </div>
+            ) : (
+              <div className="w-full sm:w-auto flex justify-center [&_.button]:!w-full [&_.button]:!mx-0 sm:[&_.button]:!w-[150px]">
+                <FishyButton
+                  type="submit"
+                  className="button--2"
+                  width="150px"
+                  height="50px"
+                  borderRadius="14px"
+                >
+                  Join Beta
+                </FishyButton>
+              </div>
+            )}
           </form>
         )}
       </div>

@@ -77,12 +77,13 @@ const SonicWaveformCanvas = () => {
 };
 
 interface SonicHeroProps {
-  onSubmit?: (email: string) => void;
+  onSubmit?: (email: string) => Promise<void> | void;
 }
 
 export const SonicWaveformHero = ({ onSubmit }: SonicHeroProps) => {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const fadeUpVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
@@ -93,11 +94,16 @@ export const SonicWaveformHero = ({ onSubmit }: SonicHeroProps) => {
     }),
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    onSubmit?.(email);
-    setSubmitted(true);
+    setLoading(true);
+    try {
+      await onSubmit?.(email);
+    } finally {
+      setLoading(false);
+      setSubmitted(true);
+    }
   };
 
   return (
@@ -118,7 +124,7 @@ export const SonicWaveformHero = ({ onSubmit }: SonicHeroProps) => {
 
         <motion.h1
           custom={1} variants={fadeUpVariants} initial="hidden" animate="visible"
-          className="text-5xl md:text-7xl font-bold tracking-tighter mb-4 pb-4 bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-500"
+          className="text-5xl md:text-7xl font-bold tracking-tighter mb-4 pb-6 bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-500"
         >
           Make any call.<br />Without speaking.
         </motion.h1>
@@ -143,19 +149,26 @@ export const SonicWaveformHero = ({ onSubmit }: SonicHeroProps) => {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="px-5 py-3.5 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition-all w-full sm:w-72"
+                disabled={loading}
+                className="px-5 py-3.5 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition-all w-full sm:w-72 disabled:opacity-60"
               />
-              <div className="w-full sm:w-auto flex justify-center [&_.button]:!w-full [&_.button]:!mx-0 sm:[&_.button]:!w-[150px]">
-                <FishyButton
-                  type="submit"
-                  className="button--2"
-                  width="150px"
-                  height="50px"
-                  borderRadius="14px"
-                >
-                  Join Beta
-                </FishyButton>
-              </div>
+              {loading ? (
+                <div className="w-full sm:w-[150px] h-[50px] flex items-center justify-center">
+                  <div className="w-5 h-5 border-2 border-teal-500 border-t-transparent rounded-full animate-spin" />
+                </div>
+              ) : (
+                <div className="w-full sm:w-auto flex justify-center [&_.button]:!w-full [&_.button]:!mx-0 sm:[&_.button]:!w-[150px]">
+                  <FishyButton
+                    type="submit"
+                    className="button--2"
+                    width="150px"
+                    height="50px"
+                    borderRadius="14px"
+                  >
+                    Join Beta
+                  </FishyButton>
+                </div>
+              )}
             </form>
           )}
         </motion.div>

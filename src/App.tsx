@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthProvider';
 import ProtectedRoute from './components/ProtectedRoute';
 import HomePage from './pages/HomePage';
-import ThankYouPage from './pages/ThankYouPage';
 import AboutPageRoute from './pages/AboutPage';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -54,7 +53,6 @@ function App() {
             </ProtectedRoute>
           } />
           <Route path="/about" element={<AboutPageRoute />} />
-          <Route path="/thank-you" element={<ThankYouPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>

@@ -35,7 +35,7 @@ export function FluentFooter() {
               <img src="/Aloud_logo.png" className="w-5 h-5 object-contain" alt="Aloud" />
               <span className="text-slate-900 font-black text-base tracking-tight">Aloud</span>
             </div>
-            <p className="text-slate-400 text-xs">Make any call. Without speaking.</p>
+            <p className="text-slate-400 text-xs">Say it without saying it.</p>
           </div>
 
           {/* Links */}

@@ -126,7 +126,7 @@ async function generateOutcomeSummary(
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY || '' });
 
     const msg = await anthropic.messages.create({
-      model: 'claude-haiku-4-5',
+      model: 'claude-haiku-4-5-20251001',
       max_tokens: 100,
       system:
         'You summarize phone call transcripts in exactly one concise sentence describing the outcome. ' +

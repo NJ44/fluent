@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { MessageSquare, PhoneCall, ScrollText } from "lucide-react";
+import { Mic, ClipboardList, Bot } from "lucide-react";
 import type React from "react";
 
 interface StepCardProps {
@@ -39,36 +39,36 @@ const StepCard: React.FC<StepCardProps> = ({ icon, title, description, benefits 
 export const HowItWorks: React.FC<React.HTMLAttributes<HTMLElement>> = ({ className, ...props }) => {
   const stepsData = [
     {
-      icon: <MessageSquare className="h-6 w-6" />,
-      title: "Type what to say",
+      icon: <Mic className="h-6 w-6" />,
+      title: "Give a recording, we clone your voice",
       description:
-        "Open Aloud and write your message. Use quick-start templates or type freely — works for any type of call.",
+        "30 seconds of audio is all it takes. We build a high-fidelity clone that sounds exactly like you.",
       benefits: [
-        "Doctors, customer service, sales, personal — any call",
-        "Pre-built templates for common scenarios",
-        "Set tone: professional, casual, or assertive",
+        "Any microphone works — phone, laptop, headset",
+        "No special setup or studio needed",
+        "Clone ready in under a minute",
       ],
     },
     {
-      icon: <PhoneCall className="h-6 w-6" />,
-      title: "Your cloned voice calls",
+      icon: <ClipboardList className="h-6 w-6" />,
+      title: "Explain the call",
       description:
-        "Aloud synthesizes your voice in real time and makes the call on your behalf. It sounds exactly like you.",
+        "Tell Aloud who you're calling and what to say. Type freely or pick a template — it handles the rest.",
       benefits: [
-        "Natural, human-sounding — not a robot voice",
-        "Works with any phone number, worldwide",
-        "The other person hears you",
+        "Any call type: doctor, bank, customer service, personal",
+        "Quick templates for common scenarios",
+        "Set the tone: professional, casual, or direct",
       ],
     },
     {
-      icon: <ScrollText className="h-6 w-6" />,
-      title: "Follow live, jump in anytime",
+      icon: <Bot className="h-6 w-6" />,
+      title: "The AI makes the call for you — or with you",
       description:
-        "Read the full conversation word-by-word as it unfolds. One tap and you take over the call instantly.",
+        "Aloud dials, speaks in your cloned voice, and handles the conversation while you follow live.",
       benefits: [
-        "Live word-by-word transcript",
-        "One-tap barge-in to take control",
-        "Full summary and recording after",
+        "Real-time transcript so you never miss a word",
+        "Barge in and take over anytime",
+        "Full summary and recording after it ends",
       ],
     },
   ];
@@ -85,7 +85,7 @@ export const HowItWorks: React.FC<React.HTMLAttributes<HTMLElement>> = ({ classN
             How it works
           </h2>
           <p className="mt-4 text-lg text-slate-500">
-            Three steps from opening Aloud to finishing a real call — hands-free.
+            Clone your voice, set up the call, let Aloud handle it.
           </p>
         </div>
 

@@ -7,7 +7,8 @@ import VoiceOnboarding from './pages/VoiceOnboarding';
 import Settings from './pages/Settings';
 import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
-import CallStatus from './pages/CallStatus';
+import CallDetail from './pages/CallDetail';
+import CallHistory from './pages/CallHistory';
 import { useLenis } from './hooks/useLenis';
 
 function ScrollManager() {
@@ -29,14 +30,15 @@ function App() {
               <Dashboard />
             </ProtectedRoute>
           } />
+          {/* Unified call detail: handles in-progress (polling) + completed (transcript+summary) */}
           <Route path="/calls/:id" element={
             <ProtectedRoute>
-              <CallStatus />
+              <CallDetail />
             </ProtectedRoute>
           } />
           <Route path="/history" element={
             <ProtectedRoute>
-              <div className="p-8 text-lg text-gray-500">Call history — coming in plan 02-05</div>
+              <CallHistory />
             </ProtectedRoute>
           } />
           <Route path="/onboarding" element={

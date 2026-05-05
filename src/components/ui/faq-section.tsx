@@ -21,10 +21,6 @@ const FAQS = [
     a: "Completely. Your voice model lives encrypted in your account and is never shared, sold, or used to train other models. You can permanently delete it at any time with a single tap.",
   },
   {
-    q: "What can I use my cloned voice for?",
-    a: "Anything that requires your voice without you being there — voiceovers, accessibility tools, content creation, real-time communication aids, or simply preserving your voice. We ship an API so you can plug it into your own apps too.",
-  },
-  {
     q: "When does the private beta open?",
     a: "We're rolling out access in waves starting soon. Drop your email in the form above and you'll be first to know when your spot is ready. Early beta users also lock in the lowest pricing tier, forever.",
   },

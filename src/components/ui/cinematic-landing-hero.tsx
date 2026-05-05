@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
 import { DitheringShader } from "@/components/ui/dithering-shader";
+import { FishyButton } from "@/components/ui/fishy-button";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -186,18 +187,18 @@ export interface CinematicHeroProps extends React.HTMLAttributes<HTMLDivElement>
 
 export function CinematicHero({
   brandName = "Fluent",
-  tagline1 = "Your voice,",
-  tagline2 = "perfectly cloned.",
-  cardHeading = "Voice cloning, redefined.",
+  tagline1 = "Make any call.",
+  tagline2 = "Without speaking.",
+  cardHeading = "You type. We call. They hear you.",
   cardDescription = (
     <>
-      <span className="text-white font-semibold">Fluent</span> captures every nuance of your voice in 30 seconds — then lets you speak anything, instantly, at near-zero latency.
+      <span className="text-white font-semibold">Fluent</span> clones your voice in 30 seconds. When you need to call the dentist, landlord, or insurance — you type. Your voice speaks. You follow along live.
     </>
   ),
   metricValue = 99,
   metricLabel = "% Accuracy",
-  ctaHeading = "Join the beta.",
-  ctaDescription = "Fluent's private beta is opening soon. Be among the first to clone your voice and experience sub-second generation.",
+  ctaHeading = "Stop putting off that call.",
+  ctaDescription = "Fluent's private beta is opening soon. Be first to make calls without saying a word.",
   onEmailSubmit,
   className,
   ...props
@@ -255,9 +256,9 @@ export function CinematicHero({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=7000",
+          end: "+=3000",
           pin: true,
-          scrub: 1,
+          scrub: 0.5,
           anticipatePin: 1,
         },
       });
@@ -276,11 +277,11 @@ export function CinematicHero({
         .fromTo(".ch-floating-badge", { y: 100, autoAlpha: 0, scale: 0.7, rotationZ: -10 }, { y: 0, autoAlpha: 1, scale: 1, rotationZ: 0, ease: "back.out(1.5)", duration: 1.5, stagger: 0.2 }, "-=2.0")
         .fromTo(".ch-card-left-text", { x: -50, autoAlpha: 0 }, { x: 0, autoAlpha: 1, ease: "power4.out", duration: 1.5 }, "-=1.5")
         .fromTo(".ch-card-right-text", { x: 50, autoAlpha: 0, scale: 0.8 }, { x: 0, autoAlpha: 1, scale: 1, ease: "expo.out", duration: 1.5 }, "<")
-        .to({}, { duration: 2.5 })
+        .to({}, { duration: 0.8 })
         .set(".ch-hero-text-wrapper", { autoAlpha: 0 })
         .set(".ch-cta-wrapper", { autoAlpha: 1 })
         .set(".ch-cta-bg", { autoAlpha: 1 })
-        .to({}, { duration: 1.5 })
+        .to({}, { duration: 0.5 })
         .to([".ch-mockup-scroll-wrapper", ".ch-floating-badge", ".ch-card-left-text", ".ch-card-right-text"], {
           scale: 0.9, y: -40, z: -200, autoAlpha: 0, ease: "power3.in", duration: 1.2, stagger: 0.05,
         })
@@ -366,12 +367,15 @@ export function CinematicHero({
               placeholder="your@email.com"
               className="px-5 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 shadow-sm focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-400/20 transition-all w-full sm:w-72"
             />
-            <button
+            <FishyButton
               type="submit"
-              className="px-8 py-3.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-semibold transition-colors duration-200 whitespace-nowrap"
+              className="button--2"
+              width="150px"
+              height="50px"
+              borderRadius="14px"
             >
               Join Beta
-            </button>
+            </FishyButton>
           </form>
         )}
       </div>

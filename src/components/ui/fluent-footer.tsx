@@ -1,5 +1,4 @@
 import type { MouseEvent } from "react";
-import { DitheringShader } from "@/components/ui/dithering-shader";
 
 const LINKS = {
   Product: [
@@ -27,62 +26,46 @@ function handleLink(e: MouseEvent<HTMLAnchorElement>, href: string) {
 
 export function FluentFooter() {
   return (
-    <footer className="relative bg-slate-900 overflow-hidden">
-      {/* Wave shader */}
-      <div className="absolute inset-0">
-        <DitheringShader
-          shape="wave"
-          type="8x8"
-          colorBack="#0f172a"
-          colorFront="#14b8a6"
-          pxSize={3}
-          speed={0.4}
-          width={1600}
-          height={300}
-          style={{ width: "100%", height: "100%" }}
-        />
-      </div>
-
-      {/* Overlay keeps text legible */}
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/85 to-slate-900/50 pointer-events-none" />
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6 py-8">
-        <div className="flex flex-col items-center text-center mb-6">
-          <div className="flex items-center gap-2 mb-2">
-            <img src="/Aloud_logo.png" className="w-6 h-6 object-contain" alt="Aloud" />
-            <span className="text-white font-black text-xl tracking-tight">Aloud</span>
-          </div>
-          <p className="text-slate-400 text-xs max-w-xs leading-relaxed">
-            Your voice, cloned perfectly. The fastest way to create natural AI voice.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-3 gap-6 mb-6 max-w-lg mx-auto">
-          {Object.entries(LINKS).map(([category, links]) => (
-            <div key={category} className="text-center">
-              <h4 className="text-slate-300 text-[10px] font-semibold uppercase tracking-widest mb-4">
-                {category}
-              </h4>
-              <ul className="space-y-2">
-                {links.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      onClick={(e) => handleLink(e, link.href)}
-                      className="text-slate-500 hover:text-teal-400 text-sm transition-colors duration-200"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+    <footer className="border-t border-slate-100 bg-white">
+      <div className="max-w-6xl mx-auto px-6 py-6">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+          {/* Brand */}
+          <div className="flex flex-col items-center sm:items-start gap-1">
+            <div className="flex items-center gap-2">
+              <img src="/Aloud_logo.png" className="w-5 h-5 object-contain" alt="Aloud" />
+              <span className="text-slate-900 font-black text-base tracking-tight">Aloud</span>
             </div>
-          ))}
+            <p className="text-slate-400 text-xs">Make any call. Without speaking.</p>
+          </div>
+
+          {/* Links */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-8 text-center sm:text-left">
+            {Object.entries(LINKS).map(([category, links]) => (
+              <div key={category} className={category === "Legal" ? "col-span-2 sm:col-span-1" : ""}>
+                <h4 className="text-slate-400 text-[10px] font-semibold uppercase tracking-widest mb-2">
+                  {category}
+                </h4>
+                <ul className="space-y-1.5">
+                  {links.map((link) => (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        onClick={(e) => handleLink(e, link.href)}
+                        className="text-slate-500 hover:text-teal-600 text-xs transition-colors duration-200"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="border-t border-white/[0.06] pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-slate-600 text-xs">© 2026 Aloud. All rights reserved.</p>
-          <p className="text-slate-700 text-xs">Built for the future of voice.</p>
+        <div className="border-t border-slate-100 mt-6 pt-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-slate-400 text-xs">© 2026 Aloud. All rights reserved.</p>
+          <p className="text-slate-300 text-xs">Built for the future of voice.</p>
         </div>
       </div>
     </footer>

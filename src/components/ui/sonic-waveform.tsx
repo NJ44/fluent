@@ -125,14 +125,14 @@ export const SonicWaveformHero = ({ onSubmit }: SonicHeroProps) => {
 
         <motion.p
           custom={2} variants={fadeUpVariants} initial="hidden" animate="visible"
-          className="max-w-xl mx-auto text-lg text-slate-500 mb-10"
+          className="max-w-xl mx-auto text-base md:text-lg text-slate-500 mb-10"
         >
           You type what to say. Your cloned voice makes the call. You follow the transcript live.
         </motion.p>
 
         <motion.div custom={3} variants={fadeUpVariants} initial="hidden" animate="visible">
           {submitted ? (
-            <div className="inline-flex items-center gap-2 px-8 py-4 bg-teal-50 border border-teal-300 rounded-xl text-teal-700 font-semibold text-lg">
+            <div className="flex items-center justify-center gap-2 px-4 sm:px-8 py-4 bg-teal-50 border border-teal-300 rounded-xl text-teal-700 font-semibold text-sm sm:text-lg text-center">
               You're on the list! We'll be in touch.
             </div>
           ) : (
@@ -145,15 +145,17 @@ export const SonicWaveformHero = ({ onSubmit }: SonicHeroProps) => {
                 placeholder="Enter your email"
                 className="px-5 py-3.5 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition-all w-full sm:w-72"
               />
-              <FishyButton
-                type="submit"
-                className="button--2"
-                width="150px"
-                height="50px"
-                borderRadius="14px"
-              >
-                Join Beta
-              </FishyButton>
+              <div className="w-full sm:w-auto flex justify-center [&_.button]:!w-full [&_.button]:!mx-0 sm:[&_.button]:!w-[150px]">
+                <FishyButton
+                  type="submit"
+                  className="button--2"
+                  width="150px"
+                  height="50px"
+                  borderRadius="14px"
+                >
+                  Join Beta
+                </FishyButton>
+              </div>
             </form>
           )}
         </motion.div>

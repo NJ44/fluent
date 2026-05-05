@@ -348,7 +348,7 @@ export function CinematicHero({
           {ctaDescription}
         </p>
         {submitted ? (
-          <div className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-teal-900/40 border border-teal-400/30 text-teal-300 font-semibold text-lg">
+          <div className="flex items-center justify-center gap-3 px-4 sm:px-8 py-4 rounded-2xl bg-teal-900/40 border border-teal-400/30 text-teal-300 font-semibold text-sm sm:text-lg text-center max-w-sm mx-auto">
             You're on the list — we'll be in touch soon.
           </div>
         ) : (
@@ -359,7 +359,7 @@ export function CinematicHero({
               onEmailSubmit?.(email);
               setSubmitted(true);
             }}
-            className="flex flex-col sm:flex-row gap-3 justify-center"
+            className="flex flex-col sm:flex-row gap-3 justify-center w-full max-w-md mx-auto sm:max-w-none sm:w-auto"
           >
             <input
               type="email"
@@ -369,15 +369,17 @@ export function CinematicHero({
               placeholder="your@email.com"
               className="px-5 py-3.5 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition-all w-full sm:w-72"
             />
-            <FishyButton
-              type="submit"
-              className="button--2"
-              width="150px"
-              height="50px"
-              borderRadius="14px"
-            >
-              Join Beta
-            </FishyButton>
+            <div className="w-full sm:w-auto flex justify-center [&_.button]:!w-full [&_.button]:!mx-0 sm:[&_.button]:!w-[150px]">
+              <FishyButton
+                type="submit"
+                className="button--2"
+                width="150px"
+                height="50px"
+                borderRadius="14px"
+              >
+                Join Beta
+              </FishyButton>
+            </div>
           </form>
         )}
       </div>
@@ -394,14 +396,14 @@ export function CinematicHero({
 
             {/* Brand name — top on mobile, right on desktop */}
             <div className="ch-card-right-text gsap-reveal order-1 lg:order-3 flex justify-center lg:justify-end z-20 w-full">
-              <h2 className="text-6xl md:text-[6rem] lg:text-[8rem] font-black uppercase tracking-tighter text-card-silver-matte">
+              <h2 className="text-4xl md:text-[6rem] lg:text-[8rem] font-black uppercase tracking-tighter text-card-silver-matte">
                 {brandName}
               </h2>
             </div>
 
             {/* Center: iPhone mockup */}
-            <div className="ch-mockup-scroll-wrapper order-2 lg:order-2 relative w-full h-[380px] lg:h-[600px] flex items-center justify-center z-10" style={{ perspective: "1000px" }}>
-              <div className="relative w-full h-full flex items-center justify-center transform scale-[0.65] md:scale-85 lg:scale-100">
+            <div className="ch-mockup-scroll-wrapper order-2 lg:order-2 relative w-full h-[260px] md:h-[380px] lg:h-[600px] flex items-center justify-center z-10" style={{ perspective: "1000px" }}>
+              <div className="relative w-full h-full flex items-center justify-center transform scale-75 md:scale-[0.85] lg:scale-100">
                 <div
                   ref={mockupRef}
                   className="relative w-[280px] h-[580px] rounded-[3rem] iphone-bezel flex flex-col will-change-transform"

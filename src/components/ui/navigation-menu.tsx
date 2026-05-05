@@ -105,7 +105,7 @@ export function AnimatedNav() {
   };
 
   return (
-    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 max-w-[calc(100vw-0.75rem)]">
       <motion.nav
         initial={{ y: -80, opacity: 0 }}
         animate={isExpanded ? "expanded" : "collapsed"}
@@ -120,14 +120,14 @@ export function AnimatedNav() {
       >
         <motion.div
           variants={logoVariants}
-          className="flex-shrink-0 flex items-center pl-4 pr-1 cursor-pointer"
+          className="flex-shrink-0 flex items-center pl-3 pr-1 cursor-pointer"
           onClick={(e) => { e.stopPropagation(); navigate("/"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
         >
           <img src="/Aloud_logo.png" className="h-7 w-7 object-contain" alt="Aloud" />
         </motion.div>
         <motion.span
           variants={brandVariants}
-          className="flex-shrink-0 font-bold text-slate-900 pr-3 tracking-tight cursor-pointer"
+          className="flex-shrink-0 font-bold text-slate-900 pr-2 tracking-tight cursor-pointer"
           onClick={(e) => { e.stopPropagation(); navigate("/"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
         >
           Aloud
@@ -137,7 +137,7 @@ export function AnimatedNav() {
 
         <motion.div
           className={cn(
-            "flex items-center gap-1 pr-4",
+            "flex items-center gap-0.5 pr-3",
             !isExpanded && "pointer-events-none"
           )}
         >
@@ -148,7 +148,8 @@ export function AnimatedNav() {
               variants={itemVariants}
               onClick={(e) => handleLinkClick(e, item.href)}
               className={cn(
-                "text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors px-2 py-1 rounded-full hover:bg-slate-100 whitespace-nowrap",
+                "text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors px-1.5 sm:px-2 py-1 rounded-full hover:bg-slate-100 whitespace-nowrap",
+                item.name === "Features" && "hidden sm:block",
                 item.name === "Join Beta" && "text-teal-600 hover:text-teal-700"
               )}
             >

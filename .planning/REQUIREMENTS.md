@@ -29,19 +29,19 @@
 
 - [ ] **INTENT-01**: User can type a call goal in plain English (e.g., "Book a table for 4 at 7pm at Mario's")
 - [ ] **INTENT-02**: User can enter the recipient's phone number
-- [ ] **INTENT-03**: User can add 2–3 fallback rules (e.g., "If 7pm is full, try 8pm or a different day")
-- [ ] **INTENT-04**: User cannot initiate a call without an active voice clone
+- [x] **INTENT-03**: User can add 2–3 fallback rules (e.g., "If 7pm is full, try 8pm or a different day")
+- [x] **INTENT-04**: User cannot initiate a call without an active voice clone
 
 ### Outbound Call Engine
 
-- [ ] **CALL-01**: App places an outbound AI phone call using the user's cloned voice when the user submits intent
-- [ ] **CALL-02**: Every call begins with a hardcoded AI-disclosure preamble before any task content (TCPA/FCC compliance)
+- [x] **CALL-01**: App places an outbound AI phone call using the user's cloned voice when the user submits intent
+- [x] **CALL-02**: Every call begins with a hardcoded AI-disclosure preamble before any task content (TCPA/FCC compliance)
 - [ ] **CALL-03**: Every call includes a recording-disclosure statement ("This call may be recorded")
 - [ ] **CALL-04**: App detects and enforces the plan-tier usage limit before initiating a call (Free: 1/mo, Premium: 10/mo, Pro: unlimited)
-- [ ] **CALL-05**: Call lifecycle state (draft → initiating → ringing → active → ended → analyzed) is tracked in real time
+- [x] **CALL-05**: Call lifecycle state (draft → initiating → ringing → active → ended → analyzed) is tracked in real time
 - [ ] **CALL-06**: End-to-end AI response latency target is <1.5s (using ElevenLabs Flash v2.5 + streaming)
 - [ ] **CALL-07**: App handles call failure states (no answer, busy, voicemail, error) with a clear user-facing message
-- [ ] **CALL-08**: Each call is logged with timestamp, recipient, intent, and call duration
+- [x] **CALL-08**: Each call is logged with timestamp, recipient, intent, and call duration
 
 ### Live Call Screen
 
@@ -137,15 +137,15 @@
 | VOICE-08 | Phase 1 | Complete |
 | INTENT-01 | Phase 2 | Pending |
 | INTENT-02 | Phase 2 | Pending |
-| INTENT-03 | Phase 2 | Pending |
-| INTENT-04 | Phase 2 | Pending |
-| CALL-01 | Phase 2 | Pending |
-| CALL-02 | Phase 2 | Pending |
+| INTENT-03 | Phase 2 | Complete |
+| INTENT-04 | Phase 2 | Complete |
+| CALL-01 | Phase 2 | Complete |
+| CALL-02 | Phase 2 | Complete |
 | CALL-03 | Phase 2 | Pending |
-| CALL-05 | Phase 2 | Pending |
+| CALL-05 | Phase 2 | Complete |
 | CALL-06 | Phase 2 | Pending |
 | CALL-07 | Phase 2 | Pending |
-| CALL-08 | Phase 2 | Pending |
+| CALL-08 | Phase 2 | Complete |
 | POST-01 | Phase 2 | Pending |
 | POST-02 | Phase 2 | Pending |
 | HIST-01 | Phase 2 | Pending |

@@ -29,13 +29,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Take last 800 chars of transcript for context
   const recentTranscript = transcript.slice(-800);
 
-  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-  const response = await client.messages.create({
-    model: 'claude-haiku-4-5-20251001',
-    max_tokens: 200,
-    messages: [{
-      role: 'user',
-      content: `An AI agent is making a phone call. The agent just said it needs to check something or think. Generate 3 short answer options the user can tap to help the agent.
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return res.status(200).json({ options: ['Yes, proceed', 'Try a different approach', 'End the call'] });
+  }
+
+  try {
+    const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+    const response = await client.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 200,
+      messages: [{
+        role: 'user',
+        content: `An AI agent is making a phone call. The agent just said it needs to check something or think. Generate 3 short answer options the user can tap to help the agent.
 
 Call goal: ${call.intent}
 Recent transcript:
@@ -46,14 +51,14 @@ Rules:
 - Options must be short (under 8 words each)
 - Options should be plausible answers to what was just asked
 - If no clear question, generate 3 general helpful responses like "Yes, proceed", "Try a different approach", "End the call"`,
-    }],
-  });
+      }],
+    });
 
-  try {
     const text = response.content[0].type === 'text' ? response.content[0].text : '';
     const parsed = JSON.parse(text.trim()) as { options: string[] };
     return res.status(200).json({ options: parsed.options.slice(0, 3) });
-  } catch {
+  } catch (err) {
+    console.error('[generate-choices] Anthropic error:', err);
     return res.status(200).json({ options: ['Yes, proceed', 'Try a different approach', 'End the call'] });
   }
 }

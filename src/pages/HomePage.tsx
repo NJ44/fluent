@@ -5,9 +5,20 @@ import { AnimatedNav } from '@/components/ui/navigation-menu';
 import { FluentFooter } from '@/components/ui/fluent-footer';
 import { FaqSection } from '@/components/ui/faq-section';
 import FeaturesSection from '@/components/ui/features-section';
+import { supabase } from '@/lib/supabase';
+
+async function saveBetaSignup(email: string) {
+  await supabase.from('beta_signups').insert({ email });
+}
 
 export default function HomePage() {
   const navigate = useNavigate();
+
+  const handleBetaSubmit = async (email: string) => {
+    await saveBetaSignup(email);
+    navigate('/thank-you');
+  };
+
   return (
     <div className="bg-white text-slate-900 overflow-x-hidden">
       <AnimatedNav />
@@ -15,14 +26,14 @@ export default function HomePage() {
       <main>
         {/* Hero */}
         <section id="hero">
-          <SonicWaveformHero />
+          <SonicWaveformHero onSubmit={handleBetaSubmit} />
         </section>
 
         {/* Feature cards (below hero) */}
         <FeaturesSection />
 
         {/* Cinematic scroll section */}
-        <CinematicHero onEmailSubmit={(email) => { console.log('Beta signup:', email); navigate('/thank-you'); }} />
+        <CinematicHero onEmailSubmit={handleBetaSubmit} />
 
         <FaqSection />
       </main>

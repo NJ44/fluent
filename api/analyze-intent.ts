@@ -29,6 +29,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({ sufficient: true, questions: [] });
   }
 
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return res.status(200).json({ sufficient: true, questions: [] });
+  }
+
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
   const userInfo = [
@@ -39,12 +43,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     fallbackRules?.length ? `Fallback rules: ${fallbackRules.join('; ')}` : null,
   ].filter(Boolean).join('\n');
 
-  const response = await client.messages.create({
-    model: 'claude-haiku-4-5-20251001',
-    max_tokens: 300,
-    messages: [{
-      role: 'user',
-      content: `You are helping prepare an AI phone agent. Determine if enough info exists to make this call successfully, or if 1-2 short clarification questions are needed.
+  try {
+    const response = await client.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 300,
+      messages: [{
+        role: 'user',
+        content: `You are helping prepare an AI phone agent. Determine if enough info exists to make this call successfully, or if 1-2 short clarification questions are needed.
 
 ${userInfo}
 
@@ -57,14 +62,14 @@ Rules:
 - Questions should be short (under 15 words each)
 - Only ask if truly critical info is missing
 - For simple tasks (restaurant booking, appointment scheduling), default to sufficient=true`
-    }],
-  });
+      }],
+    });
 
-  try {
     const text = response.content[0].type === 'text' ? response.content[0].text : '{"sufficient":true,"questions":[]}';
     const parsed = JSON.parse(text.trim()) as { sufficient: boolean; questions: string[] };
     return res.status(200).json(parsed);
-  } catch {
+  } catch (err) {
+    console.error('[analyze-intent] Anthropic error:', err);
     return res.status(200).json({ sufficient: true, questions: [] });
   }
 }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import VoiceOnboarding from './VoiceOnboarding';
+import { RippleWaveLoader } from '../components/ui/ripple-wave-loader';
 
 interface CloneStatus {
   id: string;
@@ -108,12 +109,8 @@ export default function Settings() {
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Voice Clone</h2>
 
           {loadingClone ? (
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <svg className="h-4 w-4 animate-spin text-blue-600" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-              </svg>
-              Loading…
+            <div className="flex items-center gap-2 py-2">
+              <RippleWaveLoader small />
             </div>
           ) : clone ? (
             <div className="space-y-4">

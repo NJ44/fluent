@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabase';
+import { RippleWaveLoader } from '../ui/ripple-wave-loader';
 
 interface RetellVoice {
   voice_id: string;
@@ -130,8 +131,7 @@ export default function AIVoiceStep({ onComplete, onBack, isReclone = false }: A
         {/* Loading */}
         {loading && (
           <div className="flex items-center justify-center py-16">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
-            <span className="ml-3 text-sm text-gray-500">Loading voices…</span>
+            <RippleWaveLoader />
           </div>
         )}
 

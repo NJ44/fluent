@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import type { Call, CallStatus as CallStatusType } from '../types/calls';
 import { getDisconnectionMessage } from '../types/calls';
+import { RippleWaveLoader } from '../components/ui/ripple-wave-loader';
 
 const STATUS_LABELS: Record<CallStatusType, string> = {
   draft: 'Preparing...',
@@ -215,7 +216,7 @@ export default function CallDetail() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
+        <RippleWaveLoader />
       </div>
     );
   }

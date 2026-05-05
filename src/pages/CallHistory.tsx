@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import type { Call, CallStatus } from '../types/calls';
 import { getDisconnectionMessage } from '../types/calls';
+import { RippleWaveLoader } from '../components/ui/ripple-wave-loader';
 
 const STATUS_BADGE_COLORS: Record<CallStatus, string> = {
   draft: 'bg-gray-100 text-gray-600',
@@ -51,7 +52,7 @@ export default function CallHistory() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
+        <RippleWaveLoader />
       </div>
     );
   }

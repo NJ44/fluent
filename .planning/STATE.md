@@ -3,11 +3,27 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
+stopped_at: Completed 02-02-PLAN.md (setup-retell-agent + initiate-call functions)
+last_updated: "2026-05-05T05:37:39.753Z"
+last_activity: 2026-05-04 — Completed plan 01-02 (Auth Library + ProtectedRoute + SignIn/SignUp Pages)
+progress:
+  total_phases: 5
+  completed_phases: 1
+  total_plans: 11
+  completed_plans: 7
+  percent: 64
+---
+
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: executing
 stopped_at: Completed 01-05-PLAN.md (Voice Clone Pipeline - Phase 1 complete)
 last_updated: "2026-05-04T18:07:03.040Z"
 last_activity: 2026-05-04 — Completed plan 01-02 (Auth Library + ProtectedRoute + SignIn/SignUp Pages)
 progress:
-  total_phases: 5
+  [██████░░░░] 64%
   completed_phases: 1
   total_plans: 5
   completed_plans: 5
@@ -107,6 +123,7 @@ Progress: [████░░░░░░] 40%
 | Phase 01-auth-voice-clone-foundation P04 | 15 | 2 tasks | 5 files |
 | Phase 01-auth-voice-clone-foundation P05 | 25 | 2 tasks | 9 files |
 | Phase 01-auth-voice-clone-foundation P01-05 | 30 | 3 tasks | 10 files |
+| Phase 02-outbound-call-engine P02 | 8 | 1 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -135,6 +152,8 @@ Recent decisions affecting current work:
 - [Phase 01-05]: delete-voice continues on Retell/Storage failure — only hard-fails on DB update failure (audit trail)
 - [Phase 01-05]: VoiceOnboarding accepts isReclone+onRecloneComplete props for reuse in Settings modal
 - [Phase 01-05]: Human checkpoint approved: end-to-end voice clone flow verified by user
+- [Phase 02-outbound-call-engine]: RETELL_API_KEY guard removed from createOrGetRetellAgent — SDK mocked in tests, early guard blocked TCPA test from reaching mockLlmCreate
+- [Phase 02-outbound-call-engine]: One Retell agent per user (not per call) — stored in voice_clones.retell_agent_id, reused on subsequent initiate-call invocations (eleven_flash_v2_5 for <1.5s latency)
 
 ### Pending Todos
 
@@ -148,8 +167,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-04T18:06:56.631Z
-Stopped at: Completed 01-05-PLAN.md (Voice Clone Pipeline - Phase 1 complete)
+Last session: 2026-05-05T05:37:39.747Z
+Stopped at: Completed 02-02-PLAN.md (setup-retell-agent + initiate-call functions)
 Last session: 2026-05-04T16:37:24.698Z
 Stopped at: Completed 01-03-PLAN.md (DB Schema + Netlify Shared Utilities)
 Resume file: None

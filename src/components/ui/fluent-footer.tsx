@@ -39,7 +39,7 @@ export function FluentFooter() {
           pxSize={3}
           speed={0.4}
           width={1600}
-          height={500}
+          height={300}
           style={{ width: "100%", height: "100%" }}
         />
       </div>
@@ -47,24 +47,24 @@ export function FluentFooter() {
       {/* Overlay keeps text legible */}
       <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/85 to-slate-900/50 pointer-events-none" />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 py-20">
-        <div className="flex flex-col items-center text-center mb-16">
-          <div className="flex items-center gap-2 mb-3">
-            <Mic className="w-6 h-6 text-teal-400" />
-            <span className="text-white font-black text-2xl tracking-tight">Fluent</span>
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-8">
+        <div className="flex flex-col items-center text-center mb-6">
+          <div className="flex items-center gap-2 mb-2">
+            <Mic className="w-5 h-5 text-teal-400" />
+            <span className="text-white font-black text-xl tracking-tight">Fluent</span>
           </div>
-          <p className="text-slate-400 text-sm max-w-xs leading-relaxed">
+          <p className="text-slate-400 text-xs max-w-xs leading-relaxed">
             Your voice, cloned perfectly. The fastest way to create natural AI voice.
           </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-8 mb-16 max-w-lg mx-auto">
+        <div className="grid grid-cols-3 gap-6 mb-6 max-w-lg mx-auto">
           {Object.entries(LINKS).map(([category, links]) => (
             <div key={category} className="text-center">
               <h4 className="text-slate-300 text-[10px] font-semibold uppercase tracking-widest mb-4">
                 {category}
               </h4>
-              <ul className="space-y-3">
+              <ul className="space-y-2">
                 {links.map((link) => (
                   <li key={link.label}>
                     <a
@@ -81,8 +81,8 @@ export function FluentFooter() {
           ))}
         </div>
 
-        <div className="border-t border-white/[0.06] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-slate-600 text-sm">© 2026 Fluent. All rights reserved.</p>
+        <div className="border-t border-white/[0.06] pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-slate-600 text-xs">© 2026 Fluent. All rights reserved.</p>
           <p className="text-slate-700 text-xs">Built for the future of voice.</p>
         </div>
       </div>

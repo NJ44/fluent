@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
+import { DitheringShader } from "@/components/ui/dithering-shader";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -57,13 +58,13 @@ const INJECTED_STYLES = `
   }
 
   .premium-depth-card {
-      background: linear-gradient(145deg, #0a1f3d 0%, #050d1a 100%);
+      background: linear-gradient(145deg, #061a14 0%, #020d09 100%);
       box-shadow:
           0 40px 100px -20px rgba(0, 0, 0, 0.9),
           0 20px 40px -20px rgba(0, 0, 0, 0.8),
           inset 0 1px 2px rgba(255, 255, 255, 0.1),
           inset 0 -2px 4px rgba(0, 0, 0, 0.8);
-      border: 1px solid rgba(0,200,150,0.08);
+      border: 1px solid rgba(0,200,150,0.12);
       position: relative;
   }
 
@@ -243,6 +244,7 @@ export function CinematicHero({
       gsap.set(".ch-main-card", { y: window.innerHeight + 200, autoAlpha: 1 });
       gsap.set([".ch-card-left-text", ".ch-card-right-text", ".ch-mockup-scroll-wrapper", ".ch-floating-badge", ".ch-phone-widget"], { autoAlpha: 0 });
       gsap.set(".ch-cta-wrapper", { autoAlpha: 0, scale: 0.8, filter: "blur(30px)" });
+      gsap.set(".ch-cta-bg", { autoAlpha: 0 });
 
       const introTl = gsap.timeline({ delay: 0.3 });
       introTl
@@ -277,6 +279,7 @@ export function CinematicHero({
         .to({}, { duration: 2.5 })
         .set(".ch-hero-text-wrapper", { autoAlpha: 0 })
         .set(".ch-cta-wrapper", { autoAlpha: 1 })
+        .set(".ch-cta-bg", { autoAlpha: 1 })
         .to({}, { duration: 1.5 })
         .to([".ch-mockup-scroll-wrapper", ".ch-floating-badge", ".ch-card-left-text", ".ch-card-right-text"], {
           scale: 0.9, y: -40, z: -200, autoAlpha: 0, ease: "power3.in", duration: 1.2, stagger: 0.05,
@@ -306,6 +309,23 @@ export function CinematicHero({
       <div className="film-grain" aria-hidden="true" />
       <div className="bg-grid-theme absolute inset-0 z-0 pointer-events-none opacity-50" aria-hidden="true" />
 
+      {/* CTA background: dithering wave shown when CTA is active */}
+      <div className="ch-cta-bg absolute inset-0 z-[5] pointer-events-none gsap-reveal">
+        <DitheringShader
+          shape="wave"
+          type="8x8"
+          colorBack="#0f172a"
+          colorFront="#14b8a6"
+          pxSize={3}
+          speed={0.4}
+          width={1600}
+          height={800}
+          style={{ width: "100%", height: "100%" }}
+        />
+        {/* gradient overlay to keep text legible */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/50 to-slate-900/30 pointer-events-none" />
+      </div>
+
       {/* Hero text background layer */}
       <div className="ch-hero-text-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-screen px-4 will-change-transform">
         <h1 className="ch-text-track gsap-reveal text-3d-matte text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tight mb-2">
@@ -318,14 +338,14 @@ export function CinematicHero({
 
       {/* CTA layer (shown at end of scroll) */}
       <div className="ch-cta-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-screen px-4 gsap-reveal pointer-events-auto will-change-transform">
-        <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-silver-matte">
+        <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-card-silver-matte">
           {ctaHeading}
         </h2>
-        <p className="text-slate-500 text-lg md:text-xl mb-12 max-w-xl mx-auto font-light leading-relaxed">
+        <p className="text-slate-300 text-lg md:text-xl mb-12 max-w-xl mx-auto font-light leading-relaxed">
           {ctaDescription}
         </p>
         {submitted ? (
-          <div className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-teal-50 border border-teal-200 text-teal-700 font-semibold text-lg">
+          <div className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-teal-900/40 border border-teal-400/30 text-teal-300 font-semibold text-lg">
             You're on the list — we'll be in touch soon.
           </div>
         ) : (
@@ -344,7 +364,7 @@ export function CinematicHero({
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="your@email.com"
-              className="px-5 py-3.5 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition-all w-full sm:w-72"
+              className="px-5 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 shadow-sm focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-400/20 transition-all w-full sm:w-72"
             />
             <button
               type="submit"
@@ -388,7 +408,7 @@ export function CinematicHero({
                   <div className="absolute top-[170px] -right-[3px] w-[3px] h-[70px] hardware-btn rounded-r-md z-0" style={{ transform: "scaleX(-1)" }} aria-hidden="true" />
 
                   {/* Screen */}
-                  <div className="absolute inset-[7px] bg-[#030d18] rounded-[2.5rem] overflow-hidden text-white z-10">
+                  <div className="absolute inset-[7px] bg-[#020c08] rounded-[2.5rem] overflow-hidden text-white z-10">
                     <div className="absolute inset-0 screen-glare z-40 pointer-events-none" aria-hidden="true" />
 
                     {/* Dynamic Island */}
@@ -398,60 +418,53 @@ export function CinematicHero({
 
                     {/* App UI */}
                     <div className="relative w-full h-full pt-12 px-5 pb-8 flex flex-col">
-                      <div className="ch-phone-widget flex justify-between items-center mb-8">
+                      {/* Header */}
+                      <div className="ch-phone-widget flex justify-between items-center mb-6">
                         <div className="flex flex-col">
                           <span className="text-[10px] text-teal-400/60 uppercase tracking-widest font-bold mb-1">Live</span>
-                          <span className="text-xl font-bold tracking-tight text-white">Fluent</span>
+                          <span className="text-lg font-bold tracking-tight text-white">Fluent AI</span>
                         </div>
-                        <div className="flex items-center gap-1">
-                          {[0.4, 0.7, 1, 0.8, 0.5, 0.9, 0.6].map((h, i) => (
-                            <span
-                              key={i}
-                              className="waveform-bar-anim"
-                              style={{ height: `${h * 20}px`, animationDelay: `${i * 0.1}s` }}
-                            />
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse shadow-[0_0_6px_rgba(0,200,150,0.8)]" />
+                          <span className="text-[10px] text-teal-400 font-semibold">Speaking</span>
+                        </div>
+                      </div>
+
+                      {/* AI Voice waveform visualization */}
+                      <div className="ch-phone-widget flex items-end justify-center gap-[3px] h-28 mb-5">
+                        {[0.3, 0.5, 0.8, 0.6, 1, 0.75, 0.9, 0.55, 1, 0.7, 0.85, 0.6, 0.4, 0.7, 0.5, 0.35].map((h, i) => (
+                          <span
+                            key={i}
+                            className="waveform-bar-anim rounded-full"
+                            style={{
+                              width: '4px',
+                              height: `${h * 88}px`,
+                              background: `rgba(0,200,150,${0.5 + h * 0.5})`,
+                              animationDelay: `${i * 0.08}s`,
+                              animationDuration: `${0.8 + (i % 3) * 0.2}s`,
+                            }}
+                          />
+                        ))}
+                      </div>
+                      <p className="ch-phone-widget text-center text-[10px] text-teal-400/60 uppercase tracking-widest font-bold mb-5">Generating speech · ~0.8s</p>
+
+                      {/* Transcript bubble */}
+                      <div className="ch-phone-widget widget-depth rounded-2xl p-3 mb-3">
+                        <span className="text-[9px] text-teal-400/50 uppercase tracking-widest font-bold block mb-1.5">Fluent AI</span>
+                        <p className="text-white/80 text-xs leading-relaxed">
+                          "Hello! I noticed you submitted a request earlier. How can I help you today?"
+                        </p>
+                      </div>
+
+                      {/* Status row */}
+                      <div className="ch-phone-widget flex items-center justify-between px-1">
+                        <div className="flex items-center gap-1.5">
+                          {[0, 1, 2].map(i => (
+                            <span key={i} className="w-1 h-1 rounded-full bg-teal-400/60 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
                           ))}
+                          <span className="text-[10px] text-teal-400/50 ml-1">AI responding</span>
                         </div>
-                      </div>
-
-                      {/* Accuracy ring */}
-                      <div className="ch-phone-widget relative w-44 h-44 mx-auto flex items-center justify-center mb-8" style={{ filter: "drop-shadow(0 15px 25px rgba(0,0,0,0.8))" }}>
-                        <svg className="absolute inset-0 w-full h-full" aria-hidden="true">
-                          <circle cx="88" cy="88" r="64" fill="none" stroke="rgba(0,200,150,0.08)" strokeWidth="12" />
-                          <circle className="progress-ring" cx="88" cy="88" r="64" fill="none" stroke="#00c896" strokeWidth="12" />
-                        </svg>
-                        <div className="text-center z-10 flex flex-col items-center">
-                          <span className="ch-counter-val text-4xl font-extrabold tracking-tighter text-white">0</span>
-                          <span className="text-[8px] text-teal-400/50 uppercase tracking-[0.1em] font-bold mt-0.5">{metricLabel}</span>
-                        </div>
-                      </div>
-
-                      {/* Widgets */}
-                      <div className="space-y-3">
-                        <div className="ch-phone-widget widget-depth rounded-2xl p-3 flex items-center">
-                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500/20 to-teal-600/5 flex items-center justify-center mr-3 border border-teal-400/20">
-                            <svg className="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                            </svg>
-                          </div>
-                          <div className="flex-1">
-                            <div className="h-2 w-20 bg-neutral-300 rounded-full mb-2" />
-                            <div className="h-1.5 w-12 bg-neutral-600 rounded-full" />
-                          </div>
-                          <span className="text-[10px] text-teal-400 font-bold">~0.8s</span>
-                        </div>
-                        <div className="ch-phone-widget widget-depth rounded-2xl p-3 flex items-center">
-                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 to-cyan-600/5 flex items-center justify-center mr-3 border border-cyan-400/20">
-                            <svg className="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                            </svg>
-                          </div>
-                          <div className="flex-1">
-                            <div className="h-2 w-16 bg-neutral-300 rounded-full mb-2" />
-                            <div className="h-1.5 w-24 bg-neutral-600 rounded-full" />
-                          </div>
-                          <span className="text-[10px] text-cyan-400 font-bold">E2E</span>
-                        </div>
+                        <span className="text-[10px] text-teal-400/70 font-mono font-bold">0.8s</span>
                       </div>
 
                       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[120px] h-[4px] bg-white/20 rounded-full" />

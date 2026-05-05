@@ -134,20 +134,6 @@ export default function FeaturesSection() {
             </div>
           </Card>
         </div>
-
-        {/* Bottom stats strip */}
-        <div className="mt-12 grid grid-cols-3 divide-x divide-slate-200 rounded-2xl border border-slate-200 bg-slate-50 overflow-hidden">
-          {[
-            { value: "99.2%", label: "Voice match accuracy" },
-            { value: "~0.8s", label: "Generation latency" },
-            { value: "30s", label: "To clone your voice" },
-          ].map((stat) => (
-            <div key={stat.label} className="px-8 py-6 text-center">
-              <div className="text-2xl font-bold text-teal-600">{stat.value}</div>
-              <div className="mt-1 text-xs text-slate-500">{stat.label}</div>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );

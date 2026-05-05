@@ -34,13 +34,15 @@ function formatDate(iso: string): string {
 }
 
 // Render transcript as alternating turns (AI vs Recipient)
-function TranscriptView({ transcript }: { transcript: string }) {
+function TranscriptView({ transcript, isCallActive }: { transcript: string; isCallActive?: boolean }) {
   const lines = transcript.split('\n').filter(l => l.trim().length > 0);
   return (
     <div className="space-y-3">
       {lines.map((line, i) => {
         const isAI = line.toLowerCase().startsWith('ai:') || line.toLowerCase().startsWith('agent:');
         const text = line.replace(/^(AI|Agent|User|Human|Caller|Recipient):\s*/i, '').trim();
+        const isLastLine = i === lines.length - 1;
+        const isInProgress = isCallActive && isLastLine && isAI && !/[.?!]$/.test(text);
         return (
           <div key={i} className={`flex ${isAI ? 'justify-start' : 'justify-end'}`}>
             <div className={`max-w-xs lg:max-w-md rounded-xl px-4 py-2 text-sm ${
@@ -52,6 +54,9 @@ function TranscriptView({ transcript }: { transcript: string }) {
                 {isAI ? 'AI' : 'Recipient'}
               </span>
               {text}
+              {isInProgress && (
+                <span className="inline-block w-1.5 h-3.5 bg-blue-400 animate-pulse ml-0.5 rounded-sm align-middle" />
+              )}
             </div>
           </div>
         );
@@ -70,8 +75,7 @@ export default function CallDetail() {
   useEffect(() => {
     if (!callId) return;
 
-    let intervalId: ReturnType<typeof setInterval>;
-
+    // Initial load
     const fetchCall = async () => {
       const { data, error: err } = await supabase
         .from('calls')
@@ -87,18 +91,30 @@ export default function CallDetail() {
 
       setCall(data as Call);
       setLoading(false);
-
-      // Stop polling once terminal
-      if (TERMINAL_STATUSES.includes((data as Call).status)) {
-        clearInterval(intervalId);
-      }
     };
 
     fetchCall();
-    // Poll every 2s for in-progress calls (Phase 3 upgrades to Supabase Realtime)
-    intervalId = setInterval(fetchCall, 2000);
 
-    return () => clearInterval(intervalId);
+    // Realtime subscription — sub-second updates
+    const channel = supabase
+      .channel(`call-${callId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'calls',
+          filter: `id=eq.${callId}`,
+        },
+        (payload) => {
+          setCall(payload.new as Call);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [callId]);
 
   if (loading) {
@@ -150,14 +166,22 @@ export default function CallDetail() {
                 <p className="text-gray-900 font-medium">{call.intent}</p>
               </div>
             </div>
-            <span className={`px-2 py-1 rounded-full text-xs font-medium flex-shrink-0 ${
-              isFailed ? 'bg-red-100 text-red-700' :
-              call.status === 'analyzed' ? 'bg-green-100 text-green-700' :
-              isActive ? 'bg-blue-100 text-blue-700' :
-              'bg-gray-100 text-gray-600'
-            }`}>
-              {STATUS_LABELS[call.status]}
-            </span>
+            <div className="flex items-center">
+              <span className={`px-2 py-1 rounded-full text-xs font-medium flex-shrink-0 ${
+                isFailed ? 'bg-red-100 text-red-700' :
+                call.status === 'analyzed' ? 'bg-green-100 text-green-700' :
+                isActive ? 'bg-blue-100 text-blue-700' :
+                'bg-gray-100 text-gray-600'
+              }`}>
+                {STATUS_LABELS[call.status]}
+              </span>
+              {call.status === 'active' && (
+                <span className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-red-50 border border-red-200 text-xs font-medium text-red-600 flex-shrink-0 ml-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                  LIVE
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="grid grid-cols-3 gap-4 text-sm">
@@ -234,7 +258,7 @@ export default function CallDetail() {
         {call.transcript && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-4">
             <p className="text-xs text-gray-400 uppercase tracking-wide mb-4">Full transcript</p>
-            <TranscriptView transcript={call.transcript} />
+            <TranscriptView transcript={call.transcript} isCallActive={call.status === 'active'} />
           </div>
         )}
 

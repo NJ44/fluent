@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthProvider';
 import ProtectedRoute from './components/ProtectedRoute';
+import HomePage from './pages/HomePage';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import VoiceOnboarding from './pages/VoiceOnboarding';
 import Settings from './pages/Settings';
-import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
 import CallDetail from './pages/CallDetail';
 import CallHistory from './pages/CallHistory';
